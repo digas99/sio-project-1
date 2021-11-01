@@ -8,3 +8,7 @@
     width: fit-content;
     height: fit-content;
 }
+
+.error-message {
+    color: red;
+}
