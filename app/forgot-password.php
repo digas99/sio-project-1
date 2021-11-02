@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Admin - Forgot Password</title>
+    <title>Recuperar palavra-passe | Área de Administração</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -28,7 +28,7 @@
     <!-- Page Wrapper -->
     <div id="wrapper">
 
-        <!-- SIDEBAR -->
+        <!-- Sidebar -->
         <?php
             require 'sidebar.php';
         ?>
@@ -40,26 +40,23 @@
             <div id="content">
             <div class="p-5" style="max-width: 710px; margin: auto;">
                 <div class="text-center">
-                    <h1 class="h4 text-gray-900 mb-2">Forgot Your Password?</h1>
-                    <p class="mb-4">We get it, stuff happens. Just enter your email address below
-                        and we'll send you a link to reset your password!</p>
+                    <h1 class="h4 text-gray-900 mb-2">Recuperar palavra-passe</h1>
+                    <p class="mb-4">Digite o seu endereço de e-mail abaixo e <br>enviaremos um link para redefinir a sua palavra-passe</p>
                 </div>
                 <form class="user">
                     <div class="form-group">
-                        <input type="email" class="form-control form-control-user"
-                            id="exampleInputEmail" aria-describedby="emailHelp"
-                            placeholder="Enter Email Address...">
+                        <input type="text" class="form-control form-control-user" name="email" placeholder="Email" required>
                     </div>
-                    <a href="login.html" class="btn btn-primary btn-user btn-block">
-                        Reset Password
-                    </a>
+                    <button type="submit" name="password-recover-submit" class="btn btn-primary btn-user btn-block">
+                        Redefinir palavra-passe
+                    </button>
                 </form>
                 <hr>
                 <div class="text-center">
-                    <a class="small" href="signup.php">Create an Account!</a>
+                    <a class="small" href="signup.php">Criar uma conta</a>
                 </div>
                 <div class="text-center">
-                    <a class="small" href="login.php">Already have an account? Login!</a>
+                    <a class="small" href="login.php">Iniciar sessão</a>
                 </div>
             </div>
             </div>
