@@ -2,12 +2,9 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
 	<!-- Sidebar - Brand -->
-	<div class="sidebar-brand d-flex align-items-center justify-content-center mt-1">
-		<div class="sidebar-brand-icon">
-			<i class="fas fa-user-shield fa-1x"></i>
-		</div>
-		<div class="sidebar-brand-text mx-1 small font-weight-bold">Área de Administração</div>
-	</div>
+	<div class="sidebar-brand d-flex align-items-center justify-content-center">
+		<div class="sidebar-brand-text mx-3">Admin</div>
+</div>
 
 	<!-- Divider -->
 	<hr class="sidebar-divider my-3">
