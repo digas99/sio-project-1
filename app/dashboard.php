@@ -19,6 +19,9 @@
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
+    <!-- Data Tables styles -->
+    <link href="cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet">
+
 </head>
 
 <body id="page-top">
@@ -120,6 +123,9 @@
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
+
+    <!-- Data Tables script -->
+    <script src="cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 
 </body>
 
