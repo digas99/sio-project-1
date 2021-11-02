@@ -1,3 +1,32 @@
+<?php
+	// check if there was a signup submition
+	if (isset($_POST['signup-submit'])) {
+		// require database handler page
+		// require 'db-handler.php';
+
+		// fetch information from the signup form
+		$username = $_POST['username'];
+		$pwd = $_POST['pwd'];
+		$pwdRepeat = $_POST['pwd-rpt'];
+
+		// empty fields handler
+		if (empty($username) || empty($pwd) || empty($pwdRepeat)) {
+			header("Location: signup.php?error=emptyfields&username=".$username);
+			exit();
+		}
+		
+		// missmatch passwords handler
+		if ($pwd !== $pwdRepeat) {
+			header("Location: signup.php?error=missmatchpwd&username=".$username);
+			exit();
+		}
+
+		// TODO: check for username taken in the database
+
+		// TODO: add user to the database and header location dashboard.php
+	}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -39,24 +68,41 @@
                     <div class="text-center">
                         <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                     </div>
-                    <form class="user">
+                    <?php
+                        // put error messages
+                        if (isset($_GET['error'])) {
+                            switch($_GET['error']) {
+                                case "emptyfields":
+                                    echo '<p style="color: red; text-align: center;">Fill in all fields!</p>';
+                                    break;
+                                case "missmatchpwd":
+                                    echo '<p style="color: red; text-align: center;">Passwords don\'t match!</p>';
+                                    break;
+                            }
+                        }
+                    ?>
+                    <form action="signup.php" method="post" class="user">
                         <div class="form-group">
-                            <input type="text" class="form-control form-control-user" id="exampleInputEmail"
-                                placeholder="Username">
+                            <input type="text" class="form-control form-control-user"
+                                name="username" placeholder="Username">
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-6 mb-3 mb-sm-0">
                                 <input type="password" class="form-control form-control-user"
-                                    id="exampleInputPassword" placeholder="Password">
+                                    name="pwd" placeholder="Password">
                             </div>
                             <div class="col-sm-6">
                                 <input type="password" class="form-control form-control-user"
-                                    id="exampleRepeatPassword" placeholder="Repeat Password">
+                                    name="pwd-rpt" placeholder="Repeat Password">
                             </div>
                         </div>
-                        <a href="login.html" class="btn btn-primary btn-user btn-block">
+                        <button type="submit" name="signup-submit" class="btn btn-primary btn-user btn-block">
                             Register Account
-                        </a>
+                    </button>
+                        <?php
+                            // fill in username from url query
+                            if (isset($_GET['username'])) echo "<script>Array.from(document.getElementsByTagName('INPUT')).filter(tag => tag.name === 'username')[0].value = '".$_GET['username']."'; </script>";
+                        ?>
                     </form>
                     <hr>
                     <div class="text-center">

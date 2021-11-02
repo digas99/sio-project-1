@@ -1,3 +1,25 @@
+<?php
+	// check if there was a login submition
+	if (isset($_POST['login-submit'])) {
+		// require database handler page
+		// require 'db-handler.php';
+
+		// fetch information from the login form
+		$username = $_POST['username'];
+		$pwd = $_POST['pwd'];
+
+		// empty fields handler
+		if (empty($username) || empty($pwd)) {
+			header("Location: login.php?error=emptyfields&username=".$username);
+			exit();
+		}
+
+		// TODO: check if user exists in the database, and if so, if the password is correct
+
+		// TODO: session_start() and header location dashboard.php
+	}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -40,15 +62,24 @@
                     <div class="text-center">
                         <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                     </div>
-                    <form class="user">
+                    <?php
+                        // put error messages
+                        if (isset($_GET['error'])) {
+                            switch($_GET['error']) {
+                                case "emptyfields":
+                                    echo '<p style="color: red; text-align: center;">Fill in all fields!</p>';
+                                    break;
+                            }
+                        }
+                    ?>
+                    <form action="login.php" method="post" class="user">
                         <div class="form-group">
-                            <input type="text" class="form-control form-control-user"
-                                id="exampleInputEmail" aria-describedby="emailHelp"
-                                placeholder="Username...">
+                            <input type="text" class="form-control form-control-user" 
+                                name="username" placeholder="Username...">
                         </div>
                         <div class="form-group">
                             <input type="password" class="form-control form-control-user"
-                                id="exampleInputPassword" placeholder="Password">
+                                name="password" placeholder="Password">
                         </div>
                         <div class="form-group">
                             <div class="custom-control custom-checkbox small">
@@ -57,9 +88,13 @@
                                     Me</label>
                             </div>
                         </div>
-                        <a href="index.html" class="btn btn-primary btn-user btn-block">
+                        <button type="submit" name="login-submit" class="btn btn-primary btn-user btn-block">
                             Login
-                        </a>
+                        </button>
+                        <?php
+                            // fill in username from url query
+                            if (isset($_GET['username'])) echo "<script>Array.from(document.getElementsByTagName('INPUT')).filter(tag => tag.name === 'username')[0].value = '".$_GET['username']."'; </script>";
+                        ?>
                     </form>
                     <hr>
                     <div class="text-center">
