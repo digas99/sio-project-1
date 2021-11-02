@@ -38,7 +38,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Admin - Signup</title>
+    <title>Criar conta | Área de Administração</title>
 
     <!-- Custom fonts for this template-->
     <link href="https://use.fontawesome.com/releases/v5.0.7/css/all.css" rel="stylesheet" type="text/css">
@@ -50,9 +50,9 @@
 </head>
 
 <body class="bg-gradient-primary">
-   <!-- Page Wrapper -->
-   <div id="wrapper">
-        <!-- SIDEBAR -->
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+        <!-- Sidebar -->
         <?php
             require 'sidebar.php';
         ?>
@@ -64,7 +64,7 @@
             <div id="content">
                 <div class="p-5" style="max-width: 710px; margin: auto;">
                     <div class="text-center">
-                        <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+                        <h1 class="h4 text-gray-900 mb-4">Criar uma conta</h1>
                     </div>
                     <?php
                         // put error messages
@@ -82,21 +82,25 @@
                     <form action="signup.php" method="post" class="user">
                         <div class="form-group">
                             <input type="text" class="form-control form-control-user"
-                                name="username" placeholder="Username">
+                                name="username" placeholder="Nome de utilizador" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-user"
+                                name="email" placeholder="Email" required>
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-6 mb-3 mb-sm-0">
                                 <input type="password" class="form-control form-control-user"
-                                    name="pwd" placeholder="Password">
+                                    name="password" placeholder="Palavra-passe" required>
                             </div>
                             <div class="col-sm-6">
                                 <input type="password" class="form-control form-control-user"
-                                    name="pwd-rpt" placeholder="Repeat Password">
+                                    name="repeat-password" placeholder="Repetir palavra-passe" required>
                             </div>
                         </div>
                         <button type="submit" name="signup-submit" class="btn btn-primary btn-user btn-block">
-                            Register Account
-                    </button>
+                            Criar conta
+                        </button>
                         <?php
                             // fill in username from url query
                             if (isset($_GET['username'])) echo "<script>Array.from(document.getElementsByTagName('INPUT')).filter(tag => tag.name === 'username')[0].value = '".$_GET['username']."'; </script>";
@@ -104,10 +108,10 @@
                     </form>
                     <hr>
                     <div class="text-center">
-                        <a class="small" href="forgot-password.php">Forgot Password?</a>
+                        <a class="small" href="forgot-password.php">Recuperar palavra-passe</a>
                     </div>
                     <div class="text-center">
-                        <a class="small" href="login.php">Already have an account? Login!</a>
+                        <a class="small" href="login.php">Iniciar sessão</a>
                     </div>
                 </div>
             </div>
