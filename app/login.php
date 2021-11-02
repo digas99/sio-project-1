@@ -6,13 +6,7 @@
 
 		// fetch information from the login form
 		$username = $_POST['username'];
-		$pwd = $_POST['pwd'];
-
-		// empty fields handler
-		if (empty($username) || empty($pwd)) {
-			header("Location: login.php?error=emptyfields&username=".$username);
-			exit();
-		}
+		$pwd = $_POST['password'];
 
 		// TODO: check if user exists in the database, and if so, if the password is correct
 

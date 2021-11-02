@@ -6,18 +6,13 @@
 
 		// fetch information from the signup form
 		$username = $_POST['username'];
-		$pwd = $_POST['pwd'];
-		$pwdRepeat = $_POST['pwd-rpt'];
-
-		// empty fields handler
-		if (empty($username) || empty($pwd) || empty($pwdRepeat)) {
-			header("Location: signup.php?error=emptyfields&username=".$username);
-			exit();
-		}
-		
+		$pwd = $_POST['password'];
+		$pwdRepeat = $_POST['repeat-password'];
+        $email = $_POST['email'];
+        
 		// missmatch passwords handler
 		if ($pwd !== $pwdRepeat) {
-			header("Location: signup.php?error=missmatchpwd&username=".$username);
+			header("Location: signup.php?error=missmatchpwd&username=".$username."&email=".$email);
 			exit();
 		}
 
@@ -104,6 +99,7 @@
                         <?php
                             // fill in username from url query
                             if (isset($_GET['username'])) echo "<script>Array.from(document.getElementsByTagName('INPUT')).filter(tag => tag.name === 'username')[0].value = '".$_GET['username']."'; </script>";
+                            if (isset($_GET['email'])) echo "<script>Array.from(document.getElementsByTagName('INPUT')).filter(tag => tag.name === 'email')[0].value = '".$_GET['email']."'; </script>";
                         ?>
                     </form>
                     <hr>
