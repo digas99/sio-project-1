@@ -2,7 +2,7 @@
     session_start(); 
 
     // destroy session if logout
-	if (isset($_GET['success']) && $_GET['success'] == "logout")
+    if (isset($_GET['success']) && $_GET['success'] == "logout")
         session_destroy();
     // if already in session then go to dashboard
     else if(isset($_SESSION["userId"])){
