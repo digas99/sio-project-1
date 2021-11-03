@@ -1,11 +1,19 @@
 <?php
+    session_start();
+
+    // if already in session then go to dashboard
+    if(isset($_SESSION["userId"])){
+        header("Location: index.php");
+        exit();
+    }   
+
 	// check if there was a signup submition
 	if (isset($_POST['signup-submit'])) {
 		// require database handler page
-		// require 'db-handler.php';
+		require 'php/db-handler.php';
 
 		// fetch information from the signup form
-		$username = $_POST['username'];
+		$username = trim($_POST['username']);
 		$pwd = $_POST['password'];
 		$pwdRepeat = $_POST['repeat-password'];
         $email = $_POST['email'];
@@ -15,10 +23,27 @@
 			header("Location: signup.php?error=missmatchpwd&username=".$username."&email=".$email);
 			exit();
 		}
-
-		// TODO: check for username taken in the database
-
-		// TODO: add user to the database and header location dashboard.php
+        else {
+            // check for username taken in the database
+            $query = mysqli_query($conn, "SELECT username FROM users WHERE username='".$username."'");
+            if (mysqli_num_rows($query) !== 0) {
+                header("Location: signup.php?error=usernametaken&email=".$email);
+                exit();
+            }
+            else {
+                // check for email taken in the database
+                $query = mysqli_query($conn, "SELECT email FROM users WHERE email='".$email."'");
+                if (mysqli_num_rows($query) !== 0) {
+                    header("Location: signup.php?error=emailtaken&username=".$username);
+                    exit();
+                }
+                else {
+                    // if not taken, then add it to database
+                    $query = mysqli_query($conn, "INSERT INTO users (username, email, pwd) VALUES ('".$username."', '".$email."', '".$pwd."');");
+                    header("Location: login.php?username=".$username);
+                }
+            }
+        }
 	}
 ?>
 
@@ -64,12 +89,15 @@
                     <?php
                         // put error messages
                         if (isset($_GET['error'])) {
-                            switch($_GET['error']) {
-                                case "emptyfields":
-                                    echo '<p style="color: red; text-align: center;">Fill in all fields!</p>';
-                                    break;
+                            switch($_GET['error']) {;
                                 case "missmatchpwd":
                                     echo '<p style="color: red; text-align: center;">Passwords don\'t match!</p>';
+                                    break;
+                                case "usernametaken":
+                                    echo '<p style="color: red; text-align: center;">Username already taken!</p>';
+                                    break;
+                                case "emailtaken":
+                                    echo '<p style="color: red; text-align: center;">Email already taken!</p>';
                                     break;
                             }
                         }

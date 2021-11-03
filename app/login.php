@@ -1,16 +1,47 @@
 <?php
+    session_start(); 
+
+    // destroy session if logout
+	if (isset($_GET['success']) && $_GET['success'] == "logout")
+        session_destroy();
+    // if already in session then go to dashboard
+    else if(isset($_SESSION["userId"])){
+        header("Location: index.php");
+        exit();
+    }   
+
 	// check if there was a login submition
 	if (isset($_POST['login-submit'])) {
 		// require database handler page
-		// require 'db-handler.php';
+		require 'php/db-handler.php';
 
 		// fetch information from the login form
-		$username = $_POST['username'];
+		$username = trim($_POST['username']);
 		$pwd = $_POST['password'];
 
-		// TODO: check if user exists in the database, and if so, if the password is correct
+		// check if username exists
+        $query = mysqli_query($conn, "SELECT username, pwd, id FROM users WHERE username='".$username."'");
+        if (mysqli_num_rows($query) !== 0) {
+            $row = mysqli_fetch_assoc($query);
+            // check if password matches
+            if ($pwd !== $row['pwd']) {
+                header("Location: login.php?error=wrongpwd&username=".$username."&pwd=".$row['pwd']);
+                exit();
+            }
+            else {
+                session_start();
 
-		// TODO: session_start() and header location dashboard.php
+                $_SESSION['userId'] = $row['id'];
+                $_SESSION['userUsername'] = $row['username'];
+
+                header("Location: login.php?success=login");
+            }
+        }
+        else {
+            // username doesn't exist
+            header("Location: login.php?error=usernameinvalid");
+            exit();
+        }
 	}
 ?>
 
@@ -61,8 +92,27 @@
                                 case "emptyfields":
                                     echo '<p style="color: red; text-align: center;">Fill in all fields!</p>';
                                     break;
+                                case "usernameinvalid":
+                                    echo '<p style="color: red; text-align: center;">Username doesn\'t exist!</p>';
+                                    break;
+                                case "wrongpwd":
+                                    echo '<p style="color: red; text-align: center;">Wrong Password!</p>';
+                                    break;
                             }
                         }
+
+                        // put success messages
+                        if (isset($_GET['success'])) {
+                            switch($_GET['success']) {
+                                case "login":
+                                    echo '<p style="color: green; text-align: center;">Logged in successfully!</p>';
+                                    break;
+                                case "logout":
+                                    echo '<p style="color: green; text-align: center;">Logged out successfully!</p>';
+                                    break;   
+                            }
+                        }
+
                     ?>
                     <form action="login.php" method="post" class="user">
                         <div class="form-group">
