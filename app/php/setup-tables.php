@@ -3,7 +3,7 @@
 require 'db-handler.php';
 
 // Setup users table
-$users = "CREATE TABLE users(
+$users = "CREATE TABLE `admin`.`users`(
 	username VARCHAR(255) NOT NULL ,
 	email VARCHAR(255) NOT NULL ,
 	pwd VARCHAR(255) NOT NULL ,
@@ -11,7 +11,7 @@ $users = "CREATE TABLE users(
 )";
 
 // Setup news table
-$news = "CREATE TABLE news(
+$news = "CREATE TABLE `admin`.`news`(
 	title VARCHAR(255) NOT NULL ,
 	img VARCHAR(255) NOT NULL ,
 	body VARCHAR(255) NOT NULL ,
