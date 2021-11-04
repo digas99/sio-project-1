@@ -20,26 +20,24 @@
 		$pwd = $_POST['password'];
 
 		// check if username exists
-        $query = mysqli_query($conn, "SELECT username, pwd, id FROM users WHERE username='".$username."'");
-        if (mysqli_num_rows($query) !== 0) {
-            $row = mysqli_fetch_assoc($query);
-            // check if password matches
-            if ($pwd !== $row['pwd']) {
-                header("Location: login.php?error=wrongpwd&username=".$username."&pwd=".$row['pwd']);
-                exit();
-            }
-            else {
-                session_start();
+        $sql = "SELECT username, id FROM users WHERE username='".$username."' AND pwd = '".$pwd."'";
+        $query = mysqli_query($conn, $sql);
+        if(!$query)
+            echo "ERROR: Could not execute $sql.<br> " . mysqli_error($conn);
+            
+        $row = mysqli_fetch_assoc($query);
+        if ($row) {
+           
+            session_start();
 
-                $_SESSION['userId'] = $row['id'];
-                $_SESSION['userUsername'] = $row['username'];
+            $_SESSION['userId'] = $row['id'];
+            $_SESSION['userUsername'] = $row['username'];
 
-                header("Location: login.php?success=login");
-            }
+            header("Location: login.php?success=login");
         }
         else {
             // username doesn't exist
-            header("Location: login.php?error=usernameinvalid");
+            header("Location: login.php?error=loginfailed");
             exit();
         }
 	}
@@ -89,14 +87,8 @@
                         // put error messages
                         if (isset($_GET['error'])) {
                             switch($_GET['error']) {
-                                case "emptyfields":
-                                    echo '<p style="color: red; text-align: center;">Fill in all fields!</p>';
-                                    break;
-                                case "usernameinvalid":
-                                    echo '<p style="color: red; text-align: center;">Username doesn\'t exist!</p>';
-                                    break;
-                                case "wrongpwd":
-                                    echo '<p style="color: red; text-align: center;">Wrong Password!</p>';
+                                case "loginfailed":
+                                    echo '<p style="color: red; text-align: center;">Username or password incorrect!</p>';
                                     break;
                             }
                         }

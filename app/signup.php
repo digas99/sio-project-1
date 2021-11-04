@@ -25,22 +25,35 @@
 		}
         else {
             // check for username taken in the database
-            $query = mysqli_query($conn, "SELECT username FROM users WHERE username='".$username."'");
-            if (mysqli_num_rows($query) !== 0) {
-                header("Location: signup.php?error=usernametaken&email=".$email);
-                exit();
-            }
+            $sql = "SELECT username FROM users WHERE username='".$username."'";
+            $query = mysqli_query($conn, $sql);
+            if(!$query)
+                echo "ERROR: Could not execute $sql.<br> " . mysqli_error($conn);
             else {
-                // check for email taken in the database
-                $query = mysqli_query($conn, "SELECT email FROM users WHERE email='".$email."'");
                 if (mysqli_num_rows($query) !== 0) {
-                    header("Location: signup.php?error=emailtaken&username=".$username);
+                    header("Location: signup.php?error=usernametaken&email=".$email);
                     exit();
                 }
                 else {
-                    // if not taken, then add it to database
-                    $query = mysqli_query($conn, "INSERT INTO users (username, email, pwd) VALUES ('".$username."', '".$email."', '".$pwd."');");
-                    header("Location: login.php?username=".$username);
+                    // check for email taken in the database
+                    $sql = "SELECT email FROM users WHERE email='".$email."'";
+                    $query = mysqli_query($conn, $sql);
+                    if(!$query)
+                        echo "ERROR: Could not execute $sql.<br> " . mysqli_error($conn);
+                    else {
+                        if (mysqli_num_rows($query) !== 0) {
+                            header("Location: signup.php?error=emailtaken&username=".$username);
+                            exit();
+                        }
+                        else {
+                            // if not taken, then add it to database
+                            $sql = "INSERT INTO users (username, email, pwd) VALUES ('".$username."', '".$email."', '".$pwd."');";
+                            if(!mysqli_query($conn, $sql))
+                                echo "ERROR: Could not execute $sql.<br> " . mysqli_error($conn);
+                            else
+                                header("Location: login.php?username=".$username);
+                        }
+                    }
                 }
             }
         }
