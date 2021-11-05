@@ -19,27 +19,47 @@
 		$username = trim($_POST['username']);
 		$pwd = $_POST['password'];
 
-		// check if username exists
-        $sql = "SELECT username, id FROM users WHERE username='".$username."' AND pwd = '".$pwd."'";
+        // check if username exists
+        $sql = "SELECT username FROM users WHERE username='".$username."'";
         $query = mysqli_query($conn, $sql);
-        if(!$query)
+        if(!$query) {
             echo "ERROR: Could not execute $sql.<br> " . mysqli_error($conn);
-            
-        $row = mysqli_fetch_assoc($query);
-        if ($row) {
-           
-            session_start();
-
-            $_SESSION['userId'] = $row['id'];
-            $_SESSION['userUsername'] = $row['username'];
-
-            header("Location: login.php?success=login");
-        }
-        else {
-            // username doesn't exist
-            header("Location: login.php?error=loginfailed");
             exit();
         }
+        else {
+            if (mysqli_num_rows($query) !== 0) {
+                $row = mysqli_fetch_assoc($query);
+            
+                // check if password matches
+                $sql = "SELECT username, id, pwd FROM users WHERE username='".$username."' AND pwd='".$pwd."'";
+                $query = mysqli_query($conn, $sql);
+                if(!$query) {
+                    echo "ERROR: Could not execute $sql.<br> " . mysqli_error($conn);
+                    exit();
+                }
+                else {
+                    $row = mysqli_fetch_assoc($query);
+                    if ($row) {
+                        session_start();
+        
+                        $_SESSION['userId'] = $row['id'];
+                        $_SESSION['userUsername'] = $row['username'];
+            
+                        header("Location: login.php?success=login");    
+                    }
+                    else {
+                        // password doesn't exist
+                        header("Location: login.php?error=pwdinvalid&username=".$username);
+                        exit();
+                    }
+                }
+            }
+            else {
+                // username doesn't exist
+                header("Location: login.php?error=usernameinvalid");
+                exit();
+            }
+        }    
 	}
 ?>
 
@@ -87,8 +107,11 @@
                         // put error messages
                         if (isset($_GET['error'])) {
                             switch($_GET['error']) {
-                                case "loginfailed":
-                                    echo '<p style="color: red; text-align: center;">Username or password incorrect!</p>';
+                                case "usernameinvalid":
+                                    echo '<p style="color: red; text-align: center;">Username doesn\'t exist!</p>';
+                                    break;
+                                case "pwdinvalid":
+                                    echo '<p style="color: red; text-align: center;">Password is incorrect!</p>';
                                     break;
                             }
                         }
@@ -110,8 +133,39 @@
                         <div class="form-group">
                             <input type="text" class="form-control form-control-user" name="username" placeholder="Nome de utilizador" required>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" style="position:relative;">
                             <input type="password" class="form-control form-control-user" name="password" placeholder="Palavra-passe" required>
+                            <i class="fas fa-eye" id="show-pwd"></i>
+                            <style>
+                                #show-pwd {
+                                    position: absolute;
+                                    right: 18px;
+                                    top: 0;
+                                    bottom: 0;
+                                    margin: auto;
+                                    height: fit-content;
+                                    font-size: 20px;
+                                    cursor: pointer;
+                                }
+                            </style>
+
+                            <script>
+                                const eye = document.getElementById("show-pwd");
+                                eye.addEventListener("click", () => {
+                                    const input = eye.parentElement.children[0];
+                                    // if eye with no slash then show pwd after click
+                                    if (eye.classList.contains("fa-eye")) {
+                                        input.type = 'text';
+                                        eye.classList.remove("fa-eye");
+                                        eye.classList.add("fa-eye-slash");
+                                    }
+                                    else {
+                                        input.type = 'password';
+                                        eye.classList.remove("fa-eye-slash");
+                                        eye.classList.add("fa-eye");
+                                    }
+                                });
+                            </script>
                         </div>
                         <div class="form-group">
                             <div class="custom-control custom-checkbox small">

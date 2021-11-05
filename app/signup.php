@@ -102,7 +102,7 @@
                     <?php
                         // put error messages
                         if (isset($_GET['error'])) {
-                            switch($_GET['error']) {;
+                            switch($_GET['error']) {
                                 case "missmatchpwd":
                                     echo '<p style="color: red; text-align: center;">Passwords don\'t match!</p>';
                                     break;
