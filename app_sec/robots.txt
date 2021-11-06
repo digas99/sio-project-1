@@ -1,0 +1,6 @@
+# This file is dedicated to robots.
+# And it seems that you are not one of them.
+# So you shouldn't be here.
+
+User-agent: *
+Disallow: /
