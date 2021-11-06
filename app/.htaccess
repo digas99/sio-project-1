@@ -1,0 +1,16 @@
+AddDefaultCharset utf-8
+
+DirectoryIndex index.php
+
+RewriteEngine On
+
+# Block out any script trying to base64_encode data within the URL
+# Block out any script that includes a <script> tag in URL
+# Block out any script trying to set a PHP GLOBALS variable via URL
+# Block out any script trying to modify a _REQUEST variable via URL
+# Return 403 Forbidden header when showing the content of the root homepage
+RewriteCond %{QUERY_STRING} base64_encode[^(]*\([^)]*\) [OR]
+RewriteCond %{QUERY_STRING} (<|%3C)([^s]*s)+cript.*(>|%3E) [NC,OR]
+RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
+RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2})
+RewriteRule .* index.php [F]
