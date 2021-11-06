@@ -3,7 +3,7 @@
 
 ### About
 
-
+This web app represents an administration area (user-friendly back-office) of a news blog, where administrators can publish, edit and delete news.
 
 ### Authors
 
