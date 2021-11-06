@@ -1,0 +1,32 @@
+AddDefaultCharset utf-8
+
+DirectoryIndex index.php
+
+ErrorDocument 404 /project-1---vulnerabilities-equipa_8/app_sec/404.php
+ErrorDocument 403 /project-1---vulnerabilities-equipa_8/app_sec/403.php
+
+RewriteEngine On
+
+# Externally (on the URL) redirect /dir/foo.php to /dir/foo
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s([^.]+)\.php [NC]
+RewriteRule ^ %1 [R=301,L]
+# Internally (inside the server) forward /dir/foo to /dir/foo.php
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteCond %{REQUEST_URI} !\.php$ [NC]
+RewriteRule ^(.*?)/?$ $1.php [NC,L]
+
+# Block out any script trying to base64_encode data within the URL
+# Block out any script that includes a <script> tag in URL
+# Block out any script trying to set a PHP GLOBALS variable via URL
+# Block out any script trying to modify a _REQUEST variable via URL
+# Return 403 Forbidden header when showing the content of the root homepage
+RewriteCond %{QUERY_STRING} base64_encode[^(]*\([^)]*\) [OR]
+RewriteCond %{QUERY_STRING} (<|%3C)([^s]*s)+cript.*(>|%3E) [NC,OR]
+RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
+RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2})
+RewriteRule .* index.php [F]
+
+# Hide content of folders returning a 403 Forbidden error
+IndexIgnore *
+Options -Indexes
