@@ -61,46 +61,29 @@
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Criador de Notícias</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
+                                    <h6 class="m-0 font-weight-bold text-primary">Nova notícia</h6>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
-                                <form>
-                                        <table>
-                                            <tr>
-                                                <td>Título :</td>
-                                                <td><input type="text" name="title"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Notícia :</td>
-                                                <td><TEXTAREA name="body" ROWS="5" COLS="40"></TEXTAREA></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Autor :</td>
-                                                <td><input type="text" name="author"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Imagem :</td>
-                                                <td><input type="file" name="img"></td>
-                                            </tr>
-                                            <tr>
-                                                <td><input type="Submit" value="Publicar"></td>
-                                            </tr>
-                                        </table>
+                                <form method="post" enctype="multipart/form-data">
+                                        <div class="form-group">
+                                            <label for="title">Título:</label>
+                                            <input type="text" name="title" class="form-control" placeholder="Escrever o título da notícia" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="body">Corpo:</label>
+                                            <textarea name="body" rows="5" cols="40" class="form-control" placeholder="Escrever o corpo da notícia" required></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="author">Autor:</label>
+                                            <input type="text" name="author" class="form-control" placeholder="Escrever o autor da notícia" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="image">Imagem de capa:</label>
+                                            <input type="file" accept=".jpg,.jpeg,.png" name="image" class="form-control" required>
+                                            <small class="form-text text-muted">Apenas é permitido enviar um único ficheiro com extensão <code>.jpg</code> ou <code>.png</code>.</small>
+                                        </div>
+                                        <button type="submit" value="post" class="btn btn-primary">Publicar</button>
                                     </form>
                                 </div>
                             </div>
