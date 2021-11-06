@@ -62,14 +62,22 @@
                                 <div class="card-body">
                                     <?php
                                         // TEMP: While database not functional
-                                        $count = 0;
-
-                                        if(isset($_GET["s"])){
+                                        $search = $_GET["s"];
+                                        if(isset($search)){
                                             // XSS: "<a href="js/sb-admin-2.js"><img style="position:fixed;top:0;left:0;z-index:1001;width:100%" src="LINK_TO_IMAGE"></a>"
-                                            if($count == 0){
-                                                echo "<p>Nenhum resultado encontrado para \"".$_GET["s"]."\".</p>";
+                                            
+                                            require 'php/db-handler.php';
+
+                                            $sql = "SELECT *
+                                                    FROM news
+                                                    WHERE title LIKE '%".$search."%'
+                                                    OR body LIKE '%".$search."%'
+                                                    OR author LIKE '%".$search."%'";
+                                            $query = mysqli_query($conn, $sql);
+                                            if(mysqli_num_rows($query) == 0){
+                                                echo "<p>Nenhum resultado encontrado para \"".$search."\".</p>";
                                             }else{
-                                                echo "<p>Foram encontrados ".$count." resultados para \"".$_GET["s"]."\".</p>";
+                                                echo "<p>Foram encontrados ".mysqli_num_rows($query)." resultados para \"".$search."\".</p>";
                                             }
                                         }else{
                                             echo "<p>Por favor, introduzida uma palavra-chave para procurar por algo.</p>";

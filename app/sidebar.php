@@ -74,3 +74,13 @@
 	</div>
 </ul>
 <!-- End of Sidebar -->
+
+<script>
+	// handle active nav items
+	Array.from(document.getElementsByClassName("nav-item")).forEach(elem => {
+		elem.classList.remove("active");
+		if (elem.children[0].pathname === window.location.pathname)
+			elem.classList.add("active");
+	});
+
+</script>
