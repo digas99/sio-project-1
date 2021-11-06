@@ -61,7 +61,7 @@
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Results</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Criador de Notícias</h6>
                                     <div class="dropdown no-arrow">
                                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -79,7 +79,29 @@
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
-                
+                                <form>
+                                        <table>
+                                            <tr>
+                                                <td>Título :</td>
+                                                <td><input type="text" name="title"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Notícia :</td>
+                                                <td><TEXTAREA name="body" ROWS="5" COLS="40"></TEXTAREA></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Autor :</td>
+                                                <td><input type="text" name="author"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Imagem :</td>
+                                                <td><input type="file" name="img"></td>
+                                            </tr>
+                                            <tr>
+                                                <td><input type="Submit" value="Publicar"></td>
+                                            </tr>
+                                        </table>
+                                    </form>
                                 </div>
                             </div>
                         </div>
