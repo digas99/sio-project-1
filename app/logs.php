@@ -61,25 +61,18 @@
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Results</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
+                                    <h6 class="m-0 font-weight-bold text-primary">Registo de atividade</h6>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
-                
+                                    <small class="text-muted">Não existem registos mais antigos para apresentar...</small>
+                                    <pre class="small m-0"><?php
+                                        $file = file("php/log.php");
+                                        foreach($file as $line){
+                                            echo $line;
+                                        }
+                                    ?></pre>
+                                    <small class="text-muted">Não existem registos mais recentes para apresentar...</small>
                                 </div>
                             </div>
                         </div>
