@@ -83,7 +83,7 @@
                                                     $result = mysqli_query($conn, $sql);
 
                                                     while($row = mysqli_fetch_array($result)){
-                                                        echo "<tr><td>" . $row['title'] . "</td><td><img src=". $row['img'] . " alt="" class=\"img-fluid\"></td><td>" . $row['body'] . "</td><td>" . $row['author'] . "</td></tr>";
+                                                        echo "<tr><td>" . $row['title'] . "</td><td style=\"width: 150px\"><img src=". $row['img'] . " alt=\"\" class=\"img-fluid\"></td><td>" . $row['body'] . "</td><td>" . $row['author'] . "</td></tr>";
                                                     }
                                                 ?>
                                             </tbody>
