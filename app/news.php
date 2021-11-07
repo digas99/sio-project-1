@@ -1,5 +1,22 @@
 <?php
     require 'php/check-session.php';
+
+    // check if there was a delete submition
+	if(isset($_POST['delete-submit'])) {
+		// require database handler page
+		require 'php/db-handler.php';
+
+        $id = $_POST['delete-submit'];
+        
+        $sql = "DELETE FROM news WHERE id=".$id;
+        $query = mysqli_query($conn, $sql);
+        if(!$query) {
+            echo "ERROR: Could not execute $sql.<br> " . mysqli_error($conn);
+            exit();
+        }else{
+            echo "Notícia eliminada com sucesso.";
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -65,30 +82,43 @@
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                            <thead>
-                                                <tr>
-                                                    <th>Título</th>
-                                                    <th>Imagem de Capa</th>
-                                                    <th>Corpo</th>
-                                                    <th>Autor</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php
-                                                    require 'php/db-handler.php';
+                                    <form method="post" onsubmit="return confirm('Tem a certeza que pretende eliminar permanentemente esta notícia?\nTenha em atenção que esta ação é irreversível.');">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Título</th>
+                                                        <th>Imagem de Capa</th>
+                                                        <th>Corpo</th>
+                                                        <th>Autor</th>
+                                                        <th>Ações</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php
+                                                        $sql = "SELECT * FROM news";
+                                                        $result = mysqli_query($conn, $sql);
 
-                                                    $sql = "SELECT * FROM news";
-                                                    $result = mysqli_query($conn, $sql);
-
-                                                    while($row = mysqli_fetch_array($result)){
-                                                        echo "<tr><td>" . $row['title'] . "</td><td style=\"width: 150px\"><img src=". $row['img'] . " alt=\"\" class=\"img-fluid\"></td><td>" . $row['body'] . "</td><td>" . $row['author'] . "</td></tr>";
-                                                    }
-                                                ?>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                                        while($row = mysqli_fetch_array($result)){
+                                                            echo "<tr>
+                                                                <td>" . $row['title'] . "</td>
+                                                                <td>
+                                                                    <img src=". $row['img'] . " alt=\"\" width=\"150\" class=\"img-fluid\">
+                                                                </td>
+                                                                <td>" . $row['body'] . "</td>
+                                                                <td>" . $row['author'] . "</td>
+                                                                <td>
+                                                                    <button title=\"Eliminar notícia " . $row['id'] . "\" type=\"submit\" class=\"btn btn-danger btn-block\" name=\"delete-submit\" value=\"" . $row['id'] . "\">
+                                                                        <i class=\"fas fa-trash\"></i>
+                                                                    </button>
+                                                                </td>
+                                                            </tr>";
+                                                        }
+                                                    ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
