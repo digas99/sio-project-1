@@ -61,7 +61,7 @@
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Todas as Notícias</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Lista de notícias</h6>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
@@ -70,7 +70,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>Título</th>
-                                                    <th>Capa</th>
+                                                    <th>Imagem de Capa</th>
                                                     <th>Corpo</th>
                                                     <th>Autor</th>
                                                 </tr>
@@ -83,7 +83,7 @@
                                                     $result = mysqli_query($conn, $sql);
 
                                                     while($row = mysqli_fetch_array($result)){
-                                                        echo "<tr><td>" . $row['title'] . "</td><td>" . $row['img'] . "</td><td>" . $row['body'] . "</td><td>" . $row['author'] . "</td></tr>";
+                                                        echo "<tr><td>" . $row['title'] . "</td><td><img src=". $row['img'] . " alt="" class=\"img-fluid\"></td><td>" . $row['body'] . "</td><td>" . $row['author'] . "</td></tr>";
                                                     }
                                                 ?>
                                             </tbody>
