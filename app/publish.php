@@ -100,7 +100,7 @@
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
-                                <form method="post" enctype="multipart/form-data">
+                                    <form method="post" enctype="multipart/form-data">
                                         <div class="form-group">
                                             <label for="title">Título:</label>
                                             <input type="text" name="title" class="form-control" placeholder="Escrever o título da notícia" required>
