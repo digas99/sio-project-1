@@ -1,5 +1,36 @@
 <?php
     require 'php/check-session.php';
+
+    // check if there was a news publish
+	if (isset($_POST['publish-submit'])) {
+        // require database handler page
+        require 'php/db-handler.php';
+
+        // fetch information from the publish form
+		$title = $_POST['title'];
+		$body = $_POST['body'];
+		$author = $_POST['author'];
+
+        $file = $_FILES['file'];
+        $fileName = $_FILES['file']['name'];
+        $fileTmpName = $_FILES['file']['tmp_name'];
+        $fileType = $_FILES['file']['type'];
+
+        $fileExt = explode('.', $fileName);
+        $fileActualExt = strtolower(end($fileExt));
+
+        $fileNameNew = uniqid('', true).".".$fileActualExt;
+        $fileDest = 'uploads/'.$fileNameNew;
+        move_uploaded_file($fileTmpName, $fileDest);
+
+        $img = $fileDest;
+
+        $sql = "INSERT INTO news (title, img, body, author) VALUES ('".$title."', '".$img."', '".$body."', '".$author."');";
+        if(!mysqli_query($conn, $sql))
+            echo "ERROR: Could not execute $sql.<br> " . mysqli_error($conn);
+        else
+            header("Location: index.php");
+    }
 ?>
 
 <!DOCTYPE html>
@@ -83,7 +114,7 @@
                                             <input type="file" accept=".jpg,.jpeg,.png" name="image" class="form-control" required>
                                             <small class="form-text text-muted">Apenas é permitido enviar um único ficheiro com extensão <code>.jpg</code> ou <code>.png</code>.</small>
                                         </div>
-                                        <button type="submit" value="post" class="btn btn-primary">Publicar</button>
+                                        <button type="submit" name="publish-submit" value="post" class="btn btn-primary">Publicar</button>
                                     </form>
                                 </div>
                             </div>
