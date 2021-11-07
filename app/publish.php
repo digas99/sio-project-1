@@ -17,7 +17,7 @@
         $fileExt = explode('.', $fileName);
         $fileActualExt = strtolower(end($fileExt));
 
-        $fileNameNew = uniqid('', true).".".$fileActualExt;
+        $fileNameNew = uniqid('image-', true).".".$fileActualExt;
         
         $fileDest = 'img/'.$fileNameNew;
 
