@@ -1,5 +1,31 @@
 <?php
     require 'php/check-session.php';
+
+    // check if there was a change password submition
+	if (isset($_POST['change-submit'])) {
+		// require database handler page
+		require 'php/db-handler.php';
+
+		// fetch information from the signup form
+		$pwd = $_POST['new-password'];
+		$pwdRepeat = $_POST['repeat-new-password'];
+        
+		// missmatch passwords handler
+		if ($pwd !== $pwdRepeat) {
+			header("Location: change-password.php?error=missmatchpwd");
+			exit();
+		}
+        else {
+            $sql = "UPDATE users SET pwd = '".$pwd."', pwd_sec = '".password_hash($pwd, PASSWORD_DEFAULT)."' WHERE id='".$_SESSION["userID"]."'";
+            $query = mysqli_query($conn, $sql);
+            if(!$query)
+                echo "ERROR: Could not execute $sql.<br> " . mysqli_error($conn);
+            else {
+                header("Location: index.php");
+                exit();
+            }
+        }
+	}
 ?>
 
 <!DOCTYPE html>
