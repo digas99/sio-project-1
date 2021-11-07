@@ -16,7 +16,7 @@
 			exit();
 		}
         else {
-            $sql = "UPDATE users SET pwd = '".$pwd."', pwd_sec = '".password_hash($pwd, PASSWORD_DEFAULT)."' WHERE id='".$_SESSION["userID"]."'";
+            $sql = "UPDATE users SET pwd = '".$pwd."', pwd_sec = '".password_hash($pwd, PASSWORD_DEFAULT)."' WHERE username='".$_SESSION["userUsername"]."'";
             $query = mysqli_query($conn, $sql);
             if(!$query)
                 echo "ERROR: Could not execute $sql.<br> " . mysqli_error($conn);
