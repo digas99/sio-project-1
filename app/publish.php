@@ -1,27 +1,30 @@
 <?php
     require 'php/check-session.php';
 
-    // check if there was a news publish
+    // Check if there was a news publish
 	if (isset($_POST['publish-submit'])) {
-        // require database handler page
+        // Require database handler page
         require 'php/db-handler.php';
 
-        // fetch information from the publish form
+        // Fetch information from the publish form
 		$title = $_POST['title'];
 		$body = $_POST['body'];
 		$author = $_POST['author'];
 
-        $file = $_FILES['file'];
-        $fileName = $_FILES['file']['name'];
-        $fileTmpName = $_FILES['file']['tmp_name'];
-        $fileType = $_FILES['file']['type'];
+        $fileName = $_FILES['image']['name'];
+        $fileTmpName = $_FILES['image']['tmp_name'];
 
         $fileExt = explode('.', $fileName);
         $fileActualExt = strtolower(end($fileExt));
 
-        $fileNameNew = uniqid('', true).".".$fileActualExt;
-        $fileDest = 'uploads/'.$fileNameNew;
-        move_uploaded_file($fileTmpName, $fileDest);
+        $fileNameNew = uniqid('image-', true).".".$fileActualExt;
+        
+        $fileDest = 'img/'.$fileNameNew;
+
+        // Upload image to the new location
+        if(!move_uploaded_file($fileTmpName, $fileDest)){
+            echo "ERROR: There was an error uploading the image.";
+        }
 
         $img = $fileDest;
 
@@ -30,6 +33,7 @@
             echo "ERROR: Could not execute $sql.<br> " . mysqli_error($conn);
         else
             header("Location: index.php");
+            exit();
     }
 ?>
 
