@@ -12,7 +12,7 @@
         
 		// missmatch passwords handler
 		if ($pwd !== $pwdRepeat) {
-			header("Location: change-password.php?error=missmatchpwd");
+			header("Location: change-password.php?error");
 			exit();
 		}
         else {
@@ -88,6 +88,12 @@
                                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">Alteração da palavra-passe</h6>
                                 </div>
+                                <?php
+                                    // put error messages
+                                    if (isset($_GET['error'])) {
+                                        echo '<p style="color: red; text-align: center;">Passwords don\'t match!</p>';
+                                    }
+                                ?>
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <form method="post">
