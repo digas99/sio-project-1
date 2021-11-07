@@ -79,7 +79,7 @@
 	// handle active nav items
 	Array.from(document.getElementsByClassName("nav-item")).forEach(elem => {
 		elem.classList.remove("active");
-		if (elem.children[0].pathname === window.location.pathname)
+		if (elem.children[0].pathname.split('.')[0] === window.location.pathname)
 			elem.classList.add("active");
 	});
 

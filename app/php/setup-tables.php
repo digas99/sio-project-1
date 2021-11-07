@@ -7,6 +7,7 @@ $users = "CREATE TABLE `admin`.`users`(
 	username VARCHAR(255) NOT NULL ,
 	email VARCHAR(255) NOT NULL ,
 	pwd VARCHAR(255) NOT NULL ,
+	pwd_sec VARCHAR(255) NOT NULL,
 	id INT NOT NULL PRIMARY KEY AUTO_INCREMENT
 )";
 

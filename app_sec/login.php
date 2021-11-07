@@ -20,7 +20,7 @@
 		$pwd = $_POST['password'];
 
         // check if username exists
-        $sql = "SELECT username FROM users WHERE username=?;";
+        $sql = "SELECT * FROM users WHERE username=?;";
         $stmt = mysqli_stmt_init($conn);
         // check if the query makes sense
         if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -29,12 +29,12 @@
         }
         else {
             // use binding to prevent executing queries from the user
-            mysqli_stmt_bind_param($stmt, 'ss', $username, $pwd);
+            mysqli_stmt_bind_param($stmt, 's', $username);
             mysqli_stmt_execute($stmt);
             $result = mysqli_stmt_get_result($stmt);
             // fetch rows
             if ($row = mysqli_fetch_assoc($result)) {
-                $pwd_check = password_verify($pwd, $row['pwd']);
+                $pwd_check = password_verify($pwd, $row['pwd_sec']);
                 if ($pwd_check == true) {
                     session_start();
         
@@ -120,7 +120,7 @@
                         }
 
                     ?>
-                    <form action="login.php" method="post" class="user">
+                    <form action="login" method="post" class="user">
                         <div class="form-group">
                             <input type="text" class="form-control form-control-user" name="username" placeholder="Nome de utilizador" required>
                         </div>

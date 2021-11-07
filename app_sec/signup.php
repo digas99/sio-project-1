@@ -17,46 +17,73 @@
 		$pwd = $_POST['password'];
 		$pwdRepeat = $_POST['repeat-password'];
         $email = $_POST['email'];
-        
 		// missmatch passwords handler
 		if ($pwd !== $pwdRepeat) {
 			header("Location: signup.php?error=missmatchpwd&username=".$username."&email=".$email);
 			exit();
 		}
         else {
-            // check for username taken in the database
-            $sql = "SELECT username FROM users WHERE username='".$username."'";
-            $query = mysqli_query($conn, $sql);
-            if(!$query)
+            // check if username exists
+            $sql = "SELECT * FROM users WHERE username=?;";
+            $stmt = mysqli_stmt_init($conn);
+            // check if the query makes sense
+            if (!mysqli_stmt_prepare($stmt, $sql)) {
                 echo "ERROR: Could not execute $sql.<br> " . mysqli_error($conn);
+                exit();
+            }
             else {
-                if (mysqli_num_rows($query) !== 0) {
-                    header("Location: signup.php?error=usernametaken&email=".$email);
-                    exit();
-                }
-                else {
-                    // check for email taken in the database
-                    $sql = "SELECT email FROM users WHERE email='".$email."'";
-                    $query = mysqli_query($conn, $sql);
-                    if(!$query)
+                // use binding to prevent executing queries from the user
+                mysqli_stmt_bind_param($stmt, 's', $username);
+                mysqli_stmt_execute($stmt);
+                $result = mysqli_stmt_get_result($stmt);
+                // check if any rows where fetched
+                if (mysqli_num_rows($result) == 0) {
+                    // check if mail exists
+                    $sql = "SELECT * FROM users WHERE email=?;";
+                    $stmt = mysqli_stmt_init($conn);
+                    // check if the query makes sense
+                    if (!mysqli_stmt_prepare($stmt, $sql)) {
                         echo "ERROR: Could not execute $sql.<br> " . mysqli_error($conn);
+                        exit();
+                    }
                     else {
-                        if (mysqli_num_rows($query) !== 0) {
+                        // use binding to prevent executing queries from the user
+                        mysqli_stmt_bind_param($stmt, 's', $email);
+                        mysqli_stmt_execute($stmt);
+                        $result = mysqli_stmt_get_result($stmt);
+                        // check if any rows where fetched
+                        if (mysqli_num_rows($result) == 0) {
+                            // if not taken, then add it to database
+                            $sql = "INSERT INTO users (username, email, pwd, pwd_sec) VALUES (?, ?, ?, ?);";
+                            $stmt = mysqli_stmt_init($conn);
+                            // check if the query makes sense
+                            if (!mysqli_stmt_prepare($stmt, $sql)) {
+                                echo "ERROR: Could not execute $sql.<br> " . mysqli_error($conn);
+                                exit();
+                            }
+                            else {
+                                // use binding to prevent executing queries from the user
+                                mysqli_stmt_bind_param($stmt, 'ssss', $username, $email, $pwd, password_hash($pwd, PASSWORD_DEFAULT));
+                                mysqli_stmt_execute($stmt);
+
+                                header("Location: login.php?username=".$username);
+                            }
+                        }
+                        else {
                             header("Location: signup.php?error=emailtaken&username=".$username);
                             exit();
                         }
-                        else {
-                            // if not taken, then add it to database
-                            $sql = "INSERT INTO users (username, email, pwd, pwd_sec) VALUES ('".$username."', '".$email."', '".$pwd."', '".password_hash($pwd, PASSWORD_DEFAULT)."');";
-                            if(!mysqli_query($conn, $sql))
-                                echo "ERROR: Could not execute $sql.<br> " . mysqli_error($conn);
-                            else
-                                header("Location: login.php?username=".$username);
-                        }
                     }
+                }
+                else {
+                    header("Location: signup.php?error=usernametaken&email=".$email);
+                    exit();
                 }
             }
         }
+
+        // mysqli_stmt_close($stmt);
+        // mysqli_close($conn);
 	}
 ?>
 
@@ -87,7 +114,7 @@
     <div id="wrapper">
         <!-- Sidebar -->
         <?php
-            require 'sidebar.php';
+            require 'sidebar-noaccess.php';
         ?>
 
         <!-- Content Wrapper -->
@@ -115,7 +142,7 @@
                             }
                         }
                     ?>
-                    <form action="signup.php" method="post" class="user">
+                    <form action="signup" method="post" class="user">
                         <div class="form-group">
                             <input type="text" class="form-control form-control-user"
                                 name="username" placeholder="Nome de utilizador" required>
