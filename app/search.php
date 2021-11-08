@@ -78,6 +78,35 @@
                                                 echo "<p>Nenhum resultado encontrado para \"".$search."\".</p>";
                                             }else{
                                                 echo "<p>Foram encontrados ".mysqli_num_rows($query)." resultados para \"".$search."\".</p>";
+                                                echo "<div class=\"table-responsive\">
+                                                        <table class=\"table table-bordered\" id=\"dataTable\" width=\"100%\" cellspacing=\"0\">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Título</th>
+                                                                    <th>Imagem de Capa</th>
+                                                                    <th>Corpo</th>
+                                                                    <th>Autor</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                ";
+
+                                                while($row = mysqli_fetch_array($query)){
+                                                    echo "      <tr>
+                                                                    <td>" . $row['title'] . "</td>
+                                                                    <td>
+                                                                        <img src=". $row['img'] . " alt=\"\" width=\"150\" class=\"img-fluid\">
+                                                                    </td>
+                                                                    <td>" . $row['body'] . "</td>
+                                                                    <td>" . $row['author'] . "</td>
+                                                                </tr>
+                                                    ";
+                                                }
+
+                                                echo "      </tbody>
+                                                        </table>
+                                                    </div>
+                                                ";
                                             }
                                         }else{
                                             echo "<p>Por favor, introduzida uma palavra-chave para procurar por algo.</p>";
