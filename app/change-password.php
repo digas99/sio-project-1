@@ -12,16 +12,16 @@
         
 		// missmatch passwords handler
 		if ($pwd !== $pwdRepeat) {
-			header("Location: change-password.php?error");
+			header("Location: change-password.php?submit=invalid");
 			exit();
-		}
-        else {
+		} else {
             $sql = "UPDATE users SET pwd = '".$pwd."', pwd_sec = '".password_hash($pwd, PASSWORD_DEFAULT)."' WHERE username='".$_SESSION["userUsername"]."'";
             $query = mysqli_query($conn, $sql);
-            if(!$query)
-                echo "ERROR: Could not execute $sql.<br> " . mysqli_error($conn);
-            else {
-                header("Location: index.php");
+            if(!$query){
+                header("Location: change-password.php?submit=error");
+			    exit();
+            }else {
+                header("Location: change-password.php?submit=success");
                 exit();
             }
         }
@@ -83,17 +83,52 @@
 
                         <!-- Area Chart -->
                         <div class="col-xl-8 col-lg-7">
+
+                            <?php
+                                // put error messages
+                                if (isset($_GET['submit'])) {
+                                    switch ($_GET['submit']) {
+                                        case 'success':
+                                            echo "
+                                                <div class=\"alert alert-success alert-dismissible fade show\">
+                                                    <i class=\"fas fa-check-circle\"></i> <strong>SUCESSO:</strong> A palavra-passe foi alterada com sucesso!
+                                                    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+                                                        <span aria-hidden=\"true\">×</span>
+                                                    </button>
+                                                </div>
+                                            ";
+                                            break;
+
+                                        case 'error':
+                                            echo "
+                                                <div class=\"alert alert-danger alert-dismissible fade show\">
+                                                    <i class=\"fas fa-times-circle\"></i> <strong>ERRO:</strong> Ocorreu um problema ao tentar alterar a palavra-passe!
+                                                    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+                                                        <span aria-hidden=\"true\">×</span>
+                                                    </button>
+                                                </div>
+                                            ";
+                                            break;
+
+                                        case 'invalid':
+                                            echo "
+                                                <div class=\"alert alert-danger alert-dismissible fade show\">
+                                                    <i class=\"fas fa-times-circle\"></i> <strong>ERRO:</strong> As palavras-passe não são iguais!
+                                                    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+                                                        <span aria-hidden=\"true\">×</span>
+                                                    </button>
+                                                </div>
+                                            ";
+                                            break;
+                                    }
+                                }
+                            ?>
+
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
                                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">Alteração da palavra-passe</h6>
                                 </div>
-                                <?php
-                                    // put error messages
-                                    if (isset($_GET['error'])) {
-                                        echo '<p style="color: red; text-align: center;">Passwords don\'t match!</p>';
-                                    }
-                                ?>
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <form method="post">
