@@ -1,6 +1,13 @@
 <?php
     session_start(); 
 
+    // require database handler page
+    require 'php/db-handler.php';
+
+    // check if tables need to be created
+    if (!mysqli_query($conn, "DESCRIBE users") || !mysqli_query($conn, "DESCRIBE news"))
+        require 'php/setup-tables.php';
+
     // destroy session if logout
     if (isset($_GET['success']) && $_GET['success'] == "logout")
         session_destroy();
@@ -12,9 +19,6 @@
 
 	// check if there was a login submition
 	if (isset($_POST['login-submit'])) {
-		// require database handler page
-		require 'php/db-handler.php';
-
 		// fetch information from the login form
 		$username = trim($_POST['username']);
 		$pwd = $_POST['password'];

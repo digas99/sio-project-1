@@ -21,14 +21,5 @@ $news = "CREATE TABLE `admin`.`news`(
 )";
 
 
-$tables = [
-	["users", $users],
-	["news", $news],
-];
-
-foreach ($tables as list($name, $table)) {
-	if(mysqli_query($conn, $table))
-		echo "Table ".$name." created successfully!<br>";
-	else
-		echo "ERROR: Could not execute $table.<br>" . mysqli_error($conn) . "<br>";
-}
+mysqli_query($conn, $users);
+mysqli_query($conn, $news);

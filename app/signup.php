@@ -1,6 +1,13 @@
 <?php
     session_start();
 
+    // require database handler page
+    require 'php/db-handler.php';
+
+    // check if tables need to be created
+    if (!mysqli_query($conn, "DESCRIBE users") || !mysqli_query($conn, "DESCRIBE news"))
+        require 'php/setup-tables.php';
+
     // if already in session then go to dashboard
     if(isset($_SESSION["userId"])){
         header("Location: index.php");
@@ -9,9 +16,6 @@
 
 	// check if there was a signup submition
 	if (isset($_POST['signup-submit'])) {
-		// require database handler page
-		require 'php/db-handler.php';
-
 		// fetch information from the signup form
 		$username = trim($_POST['username']);
 		$pwd = $_POST['password'];
