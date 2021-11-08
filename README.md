@@ -3,7 +3,9 @@
 
 ### About
 
-This web app represents an administration area (user-friendly back-office) of a news blog, where administrators can publish, edit and delete news.
+This web app represents an administration area (user-friendly back-office) of a news blog, where administrators can manage the news posted on the blog.
+
+### Setup
 
 To setup the app, first make sure to have [Docker](https://www.docker.com/) running on your machine. [[How to here]](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-18-04)
 
