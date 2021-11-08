@@ -5,7 +5,7 @@
 		$uri = 'http://';
 	}
 	$uri .= $_SERVER['HTTP_HOST'];
-	header('Location: '.$uri.'/www/app/');
+	header('Location: '.$uri.'/www/');
 	exit;
 ?>
 Something is wrong with the XAMPP installation :-(
