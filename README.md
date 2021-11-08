@@ -5,6 +5,20 @@
 
 This web app represents an administration area (user-friendly back-office) of a news blog, where administrators can publish, edit and delete news.
 
+To setup the app, first make sure to have [Docker](https://www.docker.com/) running on your machine.
+
+Then run the following commands in the CLI:
+```
+$ sudo chmod +x run.sh
+$ ./run.sh
+```
+or
+```
+$ sudo docker build -t webapp .
+$ sudo docker run -dti --name app -p 80:80 webapp
+```
+The web server will, then, be running on localhost:80.
+
 ### Authors
 
 88755 - Carlos Rafael de Jesus Palma Costa - carlospalmacosta@ua.pt
