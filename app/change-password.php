@@ -134,11 +134,11 @@
                                     <form method="post">
                                         <div class="form-group">
                                             <label for="new-password">Nova palavra-passe:</label>
-                                            <input type="password" name="new-password" class="form-control" placeholder="Escrever a nova palavra-passe" required>
+                                            <input type="text" name="new-password" class="form-control" placeholder="Escrever a nova palavra-passe" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="repeat-new-password">Confirmar nova palavra-passe:</label>
-                                            <input type="password" name="repeat-new-password" class="form-control" placeholder="Repetir a nova palavra-passe" required>
+                                            <input type="text" name="repeat-new-password" class="form-control" placeholder="Repetir a nova palavra-passe" required>
                                         </div>
                                         <button type="submit" name="change-submit" value="post" class="btn btn-primary">Alterar</button>
                                     </form>

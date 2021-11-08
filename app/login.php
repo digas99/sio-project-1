@@ -138,7 +138,7 @@
                             <input type="text" class="form-control form-control-user" name="username" placeholder="Nome de utilizador" required>
                         </div>
                         <div class="form-group" style="position:relative;">
-                            <input type="password" class="form-control form-control-user" name="password" placeholder="Palavra-passe" required>
+                            <input type="text" class="form-control form-control-user" name="password" placeholder="Palavra-passe" required>
                             <i class="fas fa-eye" id="show-pwd"></i>
                             <style>
                                 #show-pwd {
