@@ -23,17 +23,20 @@
 
         // Upload image to the new location
         if(!move_uploaded_file($fileTmpName, $fileDest)){
-            echo "ERROR: There was an error uploading the image.";
+            header("Location: publish.php?submit=upload");
+            exit();
         }
 
         $img = $fileDest;
 
         $sql = "INSERT INTO news (title, img, body, author) VALUES ('".$title."', '".$img."', '".$body."', '".$author."');";
-        if(!mysqli_query($conn, $sql))
-            echo "ERROR: Could not execute $sql.<br> " . mysqli_error($conn);
-        else
-            header("Location: index.php");
+        if(!mysqli_query($conn, $sql)){
+            header("Location: publish.php?submit=error");
             exit();
+        }else{
+            header("Location: publish.php?submit=success");
+            exit();
+        }
     }
 ?>
 
@@ -92,6 +95,47 @@
 
                         <!-- Area Chart -->
                         <div class="col-xl-8 col-lg-7">
+
+                            <?php
+                                // put error messages
+                                if (isset($_GET['submit'])) {
+                                    switch ($_GET['submit']) {
+                                        case 'success':
+                                            echo "
+                                                <div class=\"alert alert-success alert-dismissible fade show\">
+                                                    <i class=\"fas fa-check-circle\"></i> <strong>SUCESSO:</strong> A notícia foi publicada com sucesso!
+                                                    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+                                                        <span aria-hidden=\"true\">×</span>
+                                                    </button>
+                                                </div>
+                                            ";
+                                            break;
+
+                                        case 'error':
+                                            echo "
+                                                <div class=\"alert alert-danger alert-dismissible fade show\">
+                                                    <i class=\"fas fa-times-circle\"></i> <strong>ERRO:</strong> Ocorreu um problema ao tentar publicar a notícia!
+                                                    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+                                                        <span aria-hidden=\"true\">×</span>
+                                                    </button>
+                                                </div>
+                                            ";
+                                            break;
+
+                                        case 'upload':
+                                            echo "
+                                                <div class=\"alert alert-danger alert-dismissible fade show\">
+                                                    <i class=\"fas fa-times-circle\"></i> <strong>ERRO:</strong> Não foi possível executar o upload da imagem de capa da notícia!
+                                                    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+                                                        <span aria-hidden=\"true\">×</span>
+                                                    </button>
+                                                </div>
+                                            ";
+                                            break;
+                                    }
+                                }
+                            ?>
+
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
                                 <div

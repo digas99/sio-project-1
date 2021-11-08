@@ -10,11 +10,12 @@
         
         $sql = "DELETE FROM news WHERE id=".$id;
         $query = mysqli_query($conn, $sql);
-        if(!$query) {
-            echo "ERROR: Could not execute $sql.<br> " . mysqli_error($conn);
+        if(!$query){
+            header("Location: news.php?submit=error");
             exit();
         }else{
-            echo "Notícia eliminada com sucesso.";
+            header("Location: news.php?submit=success");
+            exit();
         }
     }
 ?>
@@ -74,6 +75,36 @@
 
                         <!-- Area Chart -->
                         <div class="col-xl-8 col-lg-7">
+
+                            <?php
+                                // put error messages
+                                if (isset($_GET['submit'])) {
+                                    switch ($_GET['submit']) {
+                                        case 'success':
+                                            echo "
+                                                <div class=\"alert alert-success alert-dismissible fade show\">
+                                                    <i class=\"fas fa-check-circle\"></i> <strong>SUCESSO:</strong> A notícia foi eliminada com sucesso!
+                                                    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+                                                        <span aria-hidden=\"true\">×</span>
+                                                    </button>
+                                                </div>
+                                            ";
+                                            break;
+
+                                        case 'error':
+                                            echo "
+                                                <div class=\"alert alert-danger alert-dismissible fade show\">
+                                                    <i class=\"fas fa-times-circle\"></i> <strong>ERRO:</strong> Ocorreu um problema ao tentar eliminar a notícia!
+                                                    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+                                                        <span aria-hidden=\"true\">×</span>
+                                                    </button>
+                                                </div>
+                                            ";
+                                            break;
+                                    }
+                                }
+                            ?>
+
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
                                 <div
