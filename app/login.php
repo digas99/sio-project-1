@@ -139,37 +139,6 @@
                         </div>
                         <div class="form-group" style="position:relative;">
                             <input type="text" class="form-control form-control-user" name="password" placeholder="Palavra-passe" required>
-                            <i class="fas fa-eye" id="show-pwd"></i>
-                            <style>
-                                #show-pwd {
-                                    position: absolute;
-                                    right: 18px;
-                                    top: 0;
-                                    bottom: 0;
-                                    margin: auto;
-                                    height: fit-content;
-                                    font-size: 20px;
-                                    cursor: pointer;
-                                }
-                            </style>
-
-                            <script>
-                                const eye = document.getElementById("show-pwd");
-                                eye.addEventListener("click", () => {
-                                    const input = eye.parentElement.children[0];
-                                    // if eye with no slash then show pwd after click
-                                    if (eye.classList.contains("fa-eye")) {
-                                        input.type = 'text';
-                                        eye.classList.remove("fa-eye");
-                                        eye.classList.add("fa-eye-slash");
-                                    }
-                                    else {
-                                        input.type = 'password';
-                                        eye.classList.remove("fa-eye-slash");
-                                        eye.classList.add("fa-eye");
-                                    }
-                                });
-                            </script>
                         </div>
                         <div class="form-group">
                             <div class="custom-control custom-checkbox small">
