@@ -1,10 +1,10 @@
 <?php
-    require 'php/check-session.php';
+    require '../php/check-session.php';
 
     // Check if there was a news publish
 	if (isset($_POST['publish-submit'])) {
         // Require database handler page
-        require 'php/db-handler.php';
+        require '../php/db-handler.php';
 
         // Fetch information from the publish form
 		$title = $_POST['title'];

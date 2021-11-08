@@ -26,6 +26,7 @@ mysqli_query($conn, $news);
 
 // Add admin:admin user
 $username = "admin";
-$pwd = "admin@admin.pt";
+$pwd = "admin";
 $email = "admin";
 $sql = "INSERT INTO users (username, email, pwd, pwd_sec) VALUES ('".$username."', '".$email."', '".$pwd."', '".password_hash($pwd, PASSWORD_DEFAULT)."');";
+mysqli_query($conn, $sql);

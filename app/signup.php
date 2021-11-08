@@ -2,11 +2,11 @@
     session_start();
 
     // require database handler page
-    require 'php/db-handler.php';
+    require '../php/db-handler.php';
 
     // check if tables need to be created
     if (!mysqli_query($conn, "DESCRIBE users") || !mysqli_query($conn, "DESCRIBE news"))
-        require 'php/setup-tables.php';
+        require '../php/setup-tables.php';
 
     // if already in session then go to dashboard
     if(isset($_SESSION["userId"])){

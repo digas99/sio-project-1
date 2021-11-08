@@ -1,5 +1,5 @@
 <?php
-    require 'php/check-session.php';
+    require '../php/check-session.php';
 ?>
 
 <!DOCTYPE html>

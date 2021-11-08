@@ -46,7 +46,7 @@
     <!-- Nav Item - User Information -->
     <li class="nav-item dropdown no-arrow">
         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span class="mr-2 d-none d-lg-inline text-gray-600 small">Administrador</span>
+            <?php echo "<span class='mr-2 d-none d-lg-inline text-gray-600 small'>".$_SESSION['userUsername']."</span>"; ?>
             <i class="fas fa-user-circle fa-2x ml-2"></i>
         </a>
         <!-- Dropdown - User Information -->

@@ -1,10 +1,10 @@
 <?php
-    require 'php/check-session.php';
+    require '../php/check-session.php';
 
     // check if there was a change password submition
 	if (isset($_POST['change-submit'])) {
 		// require database handler page
-		require 'php/db-handler.php';
+		require '../php/db-handler.php';
 
 		// fetch information from the signup form
 		$pwd = $_POST['new-password'];

@@ -1,10 +1,10 @@
 <?php
-    require 'php/check-session.php';
+    require '../php/check-session.php';
 
     // check if there was a delete submition
 	if(isset($_POST['delete-submit'])) {
 		// require database handler page
-		require 'php/db-handler.php';
+		require '../php/db-handler.php';
 
         $id = $_POST['delete-submit'];
         
@@ -128,7 +128,7 @@
                                                 <tbody>
                                                     <?php
                                                         // require database handler page
-		                                                require 'php/db-handler.php';
+		                                                require '../php/db-handler.php';
                                                         
                                                         $sql = "SELECT * FROM news";
                                                         $result = mysqli_query($conn, $sql);

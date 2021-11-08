@@ -64,7 +64,7 @@
                                         if(isset($_GET["s"])){
                                             $search = $_GET["s"];
                                             
-                                            require 'php/db-handler.php';
+                                            require '../php/db-handler.php';
 
                                             $sql = "SELECT *
                                                     FROM news
