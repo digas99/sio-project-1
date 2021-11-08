@@ -49,7 +49,7 @@
                     </div>
 
                     <!-- Content Row -->
-                    <div class="row justify-content-center">
+                    <div class="row">
 
                         <!-- Area Chart -->
                         <div class="col-xl-8 col-lg-7">
@@ -61,10 +61,8 @@
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <?php
-                                        // TEMP: While database not functional
                                         if(isset($_GET["s"])){
                                             $search = $_GET["s"];
-                                            // XSS: "<a href="js/sb-admin-2.js"><img style="position:fixed;top:0;left:0;z-index:1001;width:100%" src="LINK_TO_IMAGE"></a>"
                                             
                                             require 'php/db-handler.php';
 
