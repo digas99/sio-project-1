@@ -96,6 +96,9 @@
                                                 </thead>
                                                 <tbody>
                                                     <?php
+                                                        // require database handler page
+		                                                require 'php/db-handler.php';
+                                                        
                                                         $sql = "SELECT * FROM news";
                                                         $result = mysqli_query($conn, $sql);
 
