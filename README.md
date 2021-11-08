@@ -41,5 +41,6 @@ The web server will, then, be running on localhost:80.
 - [x] [CWE-434](https://cwe.mitre.org/data/definitions/434.html) - Unrestricted Upload of File with Dangerous Type
 - [x] [CWE-451](https://cwe.mitre.org/data/definitions/451.html) - User Interface (UI) Misrepresentation of Critical Information
 - [x] [CWE-532](https://cwe.mitre.org/data/definitions/532.html) - Insertion of Sensitive Information into Log File
+- [x] [CWE-549](https://cwe.mitre.org/data/definitions/549.html) - Missing Password Field Masking
 - [x] [CWE-552](https://cwe.mitre.org/data/definitions/552.html) - Files or Directories Accessible to External Parties
 - [x] [CWE-799](https://cwe.mitre.org/data/definitions/799.html) - Improper Control of Interaction Frequency
