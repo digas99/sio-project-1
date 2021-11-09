@@ -33,14 +33,6 @@
 		</a>
 	</li>
 
-	<!-- Nav Item - Dashboard -->
-	<li class="nav-item active">
-		<a class="nav-link" href="forgot-password.php">
-			<i class="fas fa-redo"></i>
-			<span>Recuperar Password</span>
-		</a>
-	</li>
-
 	<!-- Divider -->
 	<hr class="sidebar-divider my-3">
 

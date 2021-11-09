@@ -156,9 +156,6 @@
                     </form>
                     <hr>
                     <div class="text-center">
-                        <a class="small" href="forgot-password.php">Recuperar palavra-passe</a>
-                    </div>
-                    <div class="text-center">
                         <a class="small" href="signup.php">Criar uma conta</a>
                     </div>
                 </div>
