@@ -49,7 +49,8 @@
                         $_SESSION['userId'] = $row['id'];
                         $_SESSION['userUsername'] = $row['username'];
             
-                        header("Location: login.php?submit=login");    
+                        header("Location: login.php?submit=login");
+                        exit();
                     }
                     else {
                         // Password is incorrect

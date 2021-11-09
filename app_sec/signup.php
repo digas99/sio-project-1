@@ -71,6 +71,7 @@
                                 mysqli_stmt_execute($stmt);
 
                                 header("Location: login.php?username=".$username);
+                                exit();
                             }
                         }
                         else {
