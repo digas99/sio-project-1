@@ -64,9 +64,6 @@
                         if(!mysqli_query($conn, $sql)){
                             header("Location: login.php?submit=error");
                             exit();
-                        }else{
-                            header("Location: login.php?submit=error");
-                            exit();
                         }
 
                         header("Location: login.php?success=login");
@@ -82,9 +79,6 @@
 
                         $sql = "UPDATE users SET login_count = ".$attempts.", login_timestamp = ".$timestamp_failed_login." WHERE username='".$row['username']."';";
                         if(!mysqli_query($conn, $sql)){
-                            header("Location: login.php?submit=error");
-                            exit();
-                        }else{
                             header("Location: login.php?submit=error");
                             exit();
                         }
