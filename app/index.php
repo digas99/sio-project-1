@@ -1,5 +1,8 @@
 <?php
     require '../php/check-session.php';
+
+    // require db-handler for scripts bellow
+    require '../php/db-handler.php';
 ?>
 
 <!DOCTYPE html>
@@ -63,7 +66,15 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 Notícias publicadas</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">5</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                <?php 
+                                                    $query = mysqli_query($conn, "SELECT * FROM news WHERE 1=1");
+                                                    if (!$query) {
+                                                        echo "ERROR: Could not execute $sql.<br> " . mysqli_error($conn);
+                                                    }
+                                                    else echo mysqli_num_rows($query);
+                                                ?>
+                                            </div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="far fa-newspaper fa-2x text-gray-300"></i>
@@ -81,7 +92,15 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Utilizadores registados</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">1</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                <?php 
+                                                    $query = mysqli_query($conn, "SELECT * FROM users WHERE 1=1");
+                                                    if (!$query) {
+                                                        echo "ERROR: Could not execute $sql.<br> " . mysqli_error($conn);
+                                                    }
+                                                    else echo mysqli_num_rows($query);
+                                                ?>
+                                            </div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-users fa-2x text-gray-300"></i>
