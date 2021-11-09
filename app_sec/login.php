@@ -23,6 +23,9 @@
 		$username = trim($_POST['username']);
 		$pwd = $_POST['password'];
 
+        $attempts_limit = 3;    // 3 attempts
+        $lockout_time = 600;    // 600 seconds = 10 minutes
+
         // check if username exists
         $sql = "SELECT * FROM users WHERE username=?;";
         $stmt = mysqli_stmt_init($conn);
@@ -38,22 +41,47 @@
             $result = mysqli_stmt_get_result($stmt);
             // fetch rows
             if ($row = mysqli_fetch_assoc($result)) {
-                $pwd_check = password_verify($pwd, $row['pwd_sec']);
-                if ($pwd_check == true) {
-                    session_start();
-        
-                    $_SESSION['userId'] = $row['id'];
-                    $_SESSION['userUsername'] = $row['username'];
-        
-                    header("Location: login.php?success=login");  
 
-                }
-                else { 
-                    header("Location: login.php?error=accessinvalid");
+                        // ##### TODO: Hardcoded for now, need to retrieve from DB #####
+                //$timestamp_failed_login = $row['login_timestamp'];
+                //$attempts = $row['login_count'];
+                $timestamp_failed_login = 0;
+                $attempts = 0;
+
+                if( ($attempts >= $attempts_limit) && (time() - $timestamp_failed_login < $lockout_time) ){
+                    // User is lockout, too many attempts made
+                    header("Location: login.php?error=lockout");
                     exit();
+                } else {
+                    // User is not lockout, login is allowed
+                    $pwd_check = password_verify($pwd, $row['pwd_sec']);
+                    if ($pwd_check == true){
+                        // Correct password
+                        session_start();
+            
+                        $_SESSION['userId'] = $row['id'];
+                        $_SESSION['userUsername'] = $row['username'];
+            
+                        $attempts = 0;                      // ##### TODO: Commit to DB #####
+
+                        header("Location: login.php?success=login");
+                        exit();
+                    }
+                    else {
+                        // Wrong password
+                        $attempts++;                            // ##### TODO: Commit to DB #####
+
+                        if($attempts >= $attempts_limit){
+                            $timestamp_failed_login = time();   // ##### TODO: Commit to DB #####
+                        }
+
+                        header("Location: login.php?error=accessinvalid");
+                        exit();
+                    }
                 }
             }
             else {
+                // Username not found
                 header("Location: login.php?error=accessinvalid");
                 exit();
             }
@@ -105,6 +133,9 @@
                             switch($_GET['error']) {
                                 case "accessinvalid":
                                     echo '<p style="color: red; text-align: center;">Invalid username or password!</p>';
+                                    break;
+                                case "lockout":
+                                    echo '<p style="color: red; text-align: center;">Too many attempts!</p>';
                                     break;
                             }
                         }
