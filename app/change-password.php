@@ -15,7 +15,7 @@
 			header("Location: change-password.php?submit=invalid");
 			exit();
 		} else {
-            $sql = "UPDATE users SET pwd = '".$pwd."', pwd_sec = '".password_hash($pwd, PASSWORD_DEFAULT)."' WHERE username='".$_SESSION["userUsername"]."'";
+            $sql = "UPDATE users SET pwd = '".$pwd."' WHERE username='".$_SESSION["userUsername"]."'";
             $query = mysqli_query($conn, $sql);
             if(!$query){
                 header("Location: change-password.php?submit=error");

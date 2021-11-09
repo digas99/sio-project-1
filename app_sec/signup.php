@@ -5,7 +5,7 @@
     require '../php/db-handler.php';
 
     // check if tables need to be created
-    if (!mysqli_query($conn, "DESCRIBE users") || !mysqli_query($conn, "DESCRIBE news"))
+    if (!mysqli_query($conn, "DESCRIBE users") || !mysqli_query($conn, "DESCRIBE users_sec") || !mysqli_query($conn, "DESCRIBE news"))
         require '../php/setup-tables.php';
 
     // if already in session then go to dashboard
