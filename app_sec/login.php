@@ -69,11 +69,11 @@
                             exit();
                         }
 
-                        header("Location: login.php?success=login");
+                        header("Location: login.php?submit=login");
                         exit();
                     }
                     else {
-                        // Wrong password
+                        // Password is incorrect
                         $attempts++;
 
                         $sql = "UPDATE users_sec SET login_count = ".$attempts.", login_timestamp = NOW() WHERE username='".$row['username']."';";
@@ -177,7 +177,7 @@
                                         </div>
                                     ";
                                     break;
-                                case "success":
+                                case "login":
                                     echo "
                                         <div class=\"alert alert-success alert-dismissible fade show\">
                                             <i class=\"fas fa-check-circle\"></i> <strong>SUCESSO:</strong> Sessão iniciada com sucesso!

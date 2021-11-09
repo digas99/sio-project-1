@@ -9,7 +9,7 @@
         require '../php/setup-tables.php';
 
     // destroy session if logout
-    if (isset($_GET['success']) && $_GET['success'] == "logout")
+    if (isset($_GET['submit']) && $_GET['submit'] == "logout")
         session_destroy();
     // if already in session then go to dashboard
     else if(isset($_SESSION["userId"])){
@@ -49,18 +49,18 @@
                         $_SESSION['userId'] = $row['id'];
                         $_SESSION['userUsername'] = $row['username'];
             
-                        header("Location: login.php?success=login");    
+                        header("Location: login.php?submit=login");    
                     }
                     else {
-                        // password doesn't exist
-                        header("Location: login.php?error=pwdinvalid&username=".$username);
+                        // Password is incorrect
+                        header("Location: login.php?submit=pwdinvalid&username=".$username);
                         exit();
                     }
                 }
             }
             else {
-                // username doesn't exist
-                header("Location: login.php?error=usernameinvalid");
+                // Username not found
+                header("Location: login.php?submit=usernameinvalid");
                 exit();
             }
         }    
@@ -108,30 +108,60 @@
                         <h1 class="h4 text-gray-900 mb-4">Bem-vindo de volta!</h1>
                     </div>
                     <?php
-                        // put error messages
-                        if (isset($_GET['error'])) {
-                            switch($_GET['error']) {
+                        if (isset($_GET['submit'])) {
+                            switch($_GET['submit']) {
                                 case "usernameinvalid":
-                                    echo '<p style="color: red; text-align: center;">Username doesn\'t exist!</p>';
+                                    echo "
+                                        <div class=\"alert alert-danger alert-dismissible fade show\">
+                                            <i class=\"fas fa-times-circle\"></i> <strong>ERRO:</strong> O nome de utilizador introduzido não existe!
+                                            <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+                                                <span aria-hidden=\"true\">×</span>
+                                            </button>
+                                        </div>
+                                    ";
                                     break;
                                 case "pwdinvalid":
-                                    echo '<p style="color: red; text-align: center;">Password is incorrect!</p>';
+                                    echo "
+                                        <div class=\"alert alert-danger alert-dismissible fade show\">
+                                            <i class=\"fas fa-times-circle\"></i> <strong>ERRO:</strong> A palavra-passe para a conta introduzida está incorreta!
+                                            <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+                                                <span aria-hidden=\"true\">×</span>
+                                            </button>
+                                        </div>
+                                    ";
                                     break;
-                            }
-                        }
-
-                        // put success messages
-                        if (isset($_GET['success'])) {
-                            switch($_GET['success']) {
-                                case "login":
-                                    echo '<p style="color: green; text-align: center;">Logged in successfully!</p>';
+                                case "error":
+                                    echo "
+                                        <div class=\"alert alert-danger alert-dismissible fade show\">
+                                            <i class=\"fas fa-times-circle\"></i> <strong>ERRO:</strong> Ocorreu um problema ao tentar iniciar sessão!
+                                            <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+                                                <span aria-hidden=\"true\">×</span>
+                                            </button>
+                                        </div>
+                                    ";
                                     break;
                                 case "logout":
-                                    echo '<p style="color: green; text-align: center;">Logged out successfully!</p>';
-                                    break;   
+                                    echo "
+                                        <div class=\"alert alert-success alert-dismissible fade show\">
+                                            <i class=\"fas fa-check-circle\"></i> <strong>SUCESSO:</strong> Sessão terminada com sucesso!
+                                            <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+                                                <span aria-hidden=\"true\">×</span>
+                                            </button>
+                                        </div>
+                                    ";
+                                    break;
+                                case "login":
+                                    echo "
+                                        <div class=\"alert alert-success alert-dismissible fade show\">
+                                            <i class=\"fas fa-check-circle\"></i> <strong>SUCESSO:</strong> Sessão iniciada com sucesso!
+                                            <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+                                                <span aria-hidden=\"true\">×</span>
+                                            </button>
+                                        </div>
+                                    ";
+                                    break;
                             }
                         }
-
                     ?>
                     <form action="login.php" method="post" class="user">
                         <div class="form-group">
