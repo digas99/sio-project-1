@@ -8,7 +8,7 @@
     require '../php/db-handler.php';
 
     // check if tables need to be created
-    if (!mysqli_query($conn, "DESCRIBE users") || !mysqli_query($conn, "DESCRIBE news"))
+    if (!mysqli_query($conn, "DESCRIBE users_sec") || !mysqli_query($conn, "DESCRIBE news"))
         require '../php/setup-tables.php';
 
     // destroy session if logout
@@ -30,7 +30,7 @@
         $lockout_time = 600;    // 600 seconds = 10 minutes
 
         // check if username exists
-        $sql = "SELECT * FROM users WHERE username=?;";
+        $sql = "SELECT * FROM users_sec WHERE username=?;";
         $stmt = mysqli_stmt_init($conn);
         // check if the query makes sense
         if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -54,7 +54,7 @@
                     exit();
                 } else {
                     // User is not lockout, login is allowed
-                    $pwd_check = password_verify($pwd, $row['pwd_sec']);
+                    $pwd_check = password_verify($pwd, $row['pwd']);
                     if ($pwd_check == true){
                         // Correct password
                         session_start();
@@ -63,7 +63,7 @@
                         $_SESSION['userUsername'] = $row['username'];
 
                         $attempts = 0;
-                        $sql = "UPDATE users SET login_count = ".$attempts." WHERE username='".$row['username']."';";
+                        $sql = "UPDATE users_sec SET login_count = ".$attempts." WHERE username='".$row['username']."';";
                         if(!mysqli_query($conn, $sql)){
                             header("Location: login.php?submit=error");
                             exit();
@@ -76,7 +76,7 @@
                         // Wrong password
                         $attempts++;
 
-                        $sql = "UPDATE users SET login_count = ".$attempts.", login_timestamp = NOW() WHERE username='".$row['username']."';";
+                        $sql = "UPDATE users_sec SET login_count = ".$attempts.", login_timestamp = NOW() WHERE username='".$row['username']."';";
                         if(!mysqli_query($conn, $sql)){
                             header("Location: login.php?submit=error");
                             exit();
