@@ -12,7 +12,7 @@
         require '../php/setup-tables.php';
 
     // destroy session if logout
-    if (isset($_GET['success']) && $_GET['success'] == "logout")
+    if (isset($_GET['submit']) && $_GET['submit'] == "logout")
         session_destroy();
     // if already in session then go to dashboard
     else if(isset($_SESSION["userId"])){
@@ -82,14 +82,14 @@
                             exit();
                         }
 
-                        header("Location: login.php?submit=accessinvalid");
+                        header("Location: login.php?submit=invalid");
                         exit();
                     }
                 }
             }
             else {
                 // Username not found
-                header("Location: login.php?submit=accessinvalid");
+                header("Location: login.php?submit=invalid");
                 exit();
             }
         }
@@ -137,20 +137,55 @@
                     <?php
                         if (isset($_GET['submit'])) {
                             switch($_GET['submit']) {
-                                case "accessinvalid":
-                                    echo '<p style="color: red; text-align: center;">Invalid username or password!</p>';
+                                case "invalid":
+                                    echo "
+                                        <div class=\"alert alert-danger alert-dismissible fade show\">
+                                            <i class=\"fas fa-times-circle\"></i> <strong>ERRO:</strong> As credenciais introduzidas são inválidas! Por favor tente novamente.
+                                            <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+                                                <span aria-hidden=\"true\">×</span>
+                                            </button>
+                                        </div>
+                                    ";
                                     break;
                                 case "lockout":
-                                    echo '<p style="color: red; text-align: center;">Too many attempts! You will need to wait 10 minutes to try again.</p>';
+                                    echo "
+                                        <div class=\"alert alert-danger alert-dismissible fade show\">
+                                            <i class=\"fas fa-times-circle\"></i> <strong>ERRO:</strong> O limite de tentativas foi atingido! Por favor aguarde 10 minutos até tentar novamente.
+                                            <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+                                                <span aria-hidden=\"true\">×</span>
+                                            </button>
+                                        </div>
+                                    ";
                                     break;
                                 case "error":
-                                    echo '<p style="color: red; text-align: center;">Something went wrong!</p>';
+                                    echo "
+                                        <div class=\"alert alert-danger alert-dismissible fade show\">
+                                            <i class=\"fas fa-times-circle\"></i> <strong>ERRO:</strong> Ocorreu um problema ao tentar iniciar sessão!
+                                            <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+                                                <span aria-hidden=\"true\">×</span>
+                                            </button>
+                                        </div>
+                                    ";
                                     break;
                                 case "logout":
-                                    echo '<p style="color: green; text-align: center;">Logged out successfully!</p>';
+                                    echo "
+                                        <div class=\"alert alert-success alert-dismissible fade show\">
+                                            <i class=\"fas fa-check-circle\"></i> <strong>SUCESSO:</strong> Sessão terminada com sucesso!
+                                            <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+                                                <span aria-hidden=\"true\">×</span>
+                                            </button>
+                                        </div>
+                                    ";
                                     break;
                                 case "success":
-                                    echo '<p style="color: green; text-align: center;">Logged in successfully!</p>';
+                                    echo "
+                                        <div class=\"alert alert-success alert-dismissible fade show\">
+                                            <i class=\"fas fa-check-circle\"></i> <strong>SUCESSO:</strong> Sessão iniciada com sucesso!
+                                            <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+                                                <span aria-hidden=\"true\">×</span>
+                                            </button>
+                                        </div>
+                                    ";
                                     break;
                             }
                         }

@@ -23,7 +23,7 @@
         $email = $_POST['email'];
 		// missmatch passwords handler
 		if ($pwd !== $pwdRepeat) {
-			header("Location: signup.php?error=missmatchpwd&username=".$username."&email=".$email);
+			header("Location: signup.php?submit=missmatchpwd&username=".$username."&email=".$email);
 			exit();
 		}
         else {
@@ -74,13 +74,13 @@
                             }
                         }
                         else {
-                            header("Location: signup.php?error=emailtaken&username=".$username);
+                            header("Location: signup.php?submit=emailtaken&username=".$username);
                             exit();
                         }
                     }
                 }
                 else {
-                    header("Location: signup.php?error=usernametaken&email=".$email);
+                    header("Location: signup.php?submit=usernametaken&email=".$email);
                     exit();
                 }
             }
@@ -129,17 +129,47 @@
                         <h1 class="h4 text-gray-900 mb-4">Criar uma conta</h1>
                     </div>
                     <?php
-                        // put error messages
-                        if (isset($_GET['error'])) {
-                            switch($_GET['error']) {
-                                case "missmatchpwd":
-                                    echo '<p style="color: red; text-align: center;">Passwords don\'t match!</p>';
-                                    break;
-                                case "usernametaken":
-                                    echo '<p style="color: red; text-align: center;">Username already taken!</p>';
+                        if (isset($_GET['submit'])) {
+                            switch($_GET['submit']) {
+                                case "error":
+                                    echo "
+                                        <div class=\"alert alert-danger alert-dismissible fade show\">
+                                            <i class=\"fas fa-times-circle\"></i> <strong>ERRO:</strong> Ocorreu um problema ao tentar criar conta!
+                                            <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+                                                <span aria-hidden=\"true\">×</span>
+                                            </button>
+                                        </div>
+                                    ";
                                     break;
                                 case "emailtaken":
-                                    echo '<p style="color: red; text-align: center;">Email already taken!</p>';
+                                    echo "
+                                        <div class=\"alert alert-danger alert-dismissible fade show\">
+                                            <i class=\"fas fa-times-circle\"></i> <strong>ERRO:</strong> O email introduzido já está associado a outra conta!
+                                            <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+                                                <span aria-hidden=\"true\">×</span>
+                                            </button>
+                                        </div>
+                                    ";
+                                    break;
+                                case "usernametaken":
+                                    echo "
+                                        <div class=\"alert alert-danger alert-dismissible fade show\">
+                                            <i class=\"fas fa-times-circle\"></i> <strong>ERRO:</strong> O nome de utilizador escolhido já está em uso!
+                                            <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+                                                <span aria-hidden=\"true\">×</span>
+                                            </button>
+                                        </div>
+                                    ";
+                                    break;
+                                case "missmatchpwd":
+                                    echo "
+                                        <div class=\"alert alert-danger alert-dismissible fade show\">
+                                            <i class=\"fas fa-times-circle\"></i> <strong>ERRO:</strong> As palavras-passe introduzidas não são iguais!
+                                            <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+                                                <span aria-hidden=\"true\">×</span>
+                                            </button>
+                                        </div>
+                                    ";
                                     break;
                             }
                         }
