@@ -51,7 +51,7 @@
                         }
                         else {
                             // if not taken, then add it to database
-                            $sql = "INSERT INTO users (username, email, pwd, pwd_sec) VALUES ('".$username."', '".$email."', '".$pwd."', '".password_hash($pwd, PASSWORD_DEFAULT)."');";
+                            $sql = "INSERT INTO users (username, email, pwd) VALUES ('".$username."', '".$email."', '".$pwd."');";
                             if(!mysqli_query($conn, $sql))
                                 echo "ERROR: Could not execute $sql.<br> " . mysqli_error($conn);
                             else

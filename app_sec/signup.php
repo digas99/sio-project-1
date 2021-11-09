@@ -58,7 +58,7 @@
                         // check if any rows where fetched
                         if (mysqli_num_rows($result) == 0) {
                             // if not taken, then add it to database
-                            $sql = "INSERT INTO users (username, email, pwd, pwd_sec) VALUES (?, ?, ?, ?);";
+                            $sql = "INSERT INTO users (username, email, pwd) VALUES (?, ?, ?, ?);";
                             $stmt = mysqli_stmt_init($conn);
                             // check if the query makes sense
                             if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -67,7 +67,7 @@
                             }
                             else {
                                 // use binding to prevent executing queries from the user
-                                mysqli_stmt_bind_param($stmt, 'ssss', $username, $email, $pwd, password_hash($pwd, PASSWORD_DEFAULT));
+                                mysqli_stmt_bind_param($stmt, 'sss', $username, $email, password_hash($pwd, PASSWORD_DEFAULT));
                                 mysqli_stmt_execute($stmt);
 
                                 header("Location: login.php?username=".$username);
