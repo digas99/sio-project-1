@@ -1,5 +1,8 @@
 <?php
-    session_start(); 
+    session_start();
+
+    // set timezone to Lisbon (Portugal)
+    date_default_timezone_set("Europe/Lisbon");
 
     // require database handler page
     require '../php/db-handler.php';
@@ -45,7 +48,7 @@
                 $timestamp_failed_login = $row['login_timestamp'];
                 $attempts = $row['login_count'];
 
-                if( ($attempts >= $attempts_limit) && (time() - $timestamp_failed_login < $lockout_time) ){
+                if( ($attempts >= $attempts_limit) && (time() - strtotime($timestamp_failed_login) < $lockout_time) ){
                     // User is lockout, too many attempts made
                     header("Location: login.php?submit=lockout");
                     exit();
@@ -73,11 +76,7 @@
                         // Wrong password
                         $attempts++;
 
-                        if($attempts >= $attempts_limit){
-                            $timestamp_failed_login = time();
-                        }
-
-                        $sql = "UPDATE users SET login_count = ".$attempts.", login_timestamp = ".$timestamp_failed_login." WHERE username='".$row['username']."';";
+                        $sql = "UPDATE users SET login_count = ".$attempts.", login_timestamp = NOW() WHERE username='".$row['username']."';";
                         if(!mysqli_query($conn, $sql)){
                             header("Location: login.php?submit=error");
                             exit();
@@ -136,45 +135,25 @@
                         <h1 class="h4 text-gray-900 mb-4">Bem-vindo de volta!</h1>
                     </div>
                     <?php
-                        // put error messages
-                        if (isset($_GET['error'])) {
-                            switch($_GET['error']) {
-                                case "accessinvalid":
-                                    echo '<p style="color: red; text-align: center;">Invalid username or password!</p>';
-                                    break;
-                                case "lockout":
-                                    echo '<p style="color: red; text-align: center;">Too many attempts!</p>';
-                                    break;
-                            }
-                        }
-
-                        // ##### TODO: Temporary
                         if (isset($_GET['submit'])) {
                             switch($_GET['submit']) {
                                 case "accessinvalid":
                                     echo '<p style="color: red; text-align: center;">Invalid username or password!</p>';
                                     break;
                                 case "lockout":
-                                    echo '<p style="color: red; text-align: center;">Too many attempts!</p>';
+                                    echo '<p style="color: red; text-align: center;">Too many attempts! You will need to wait 10 minutes to try again.</p>';
                                     break;
                                 case "error":
-                                        echo '<p style="color: red; text-align: center;">Something went wrong!</p>';
-                                        break;
-                            }
-                        }
-
-                        // put success messages
-                        if (isset($_GET['success'])) {
-                            switch($_GET['success']) {
-                                case "login":
-                                    echo '<p style="color: green; text-align: center;">Logged in successfully!</p>';
+                                    echo '<p style="color: red; text-align: center;">Something went wrong!</p>';
                                     break;
                                 case "logout":
                                     echo '<p style="color: green; text-align: center;">Logged out successfully!</p>';
-                                    break;   
+                                    break;
+                                case "success":
+                                    echo '<p style="color: green; text-align: center;">Logged in successfully!</p>';
+                                    break;
                             }
                         }
-
                     ?>
                     <form action="login" method="post" class="user">
                         <div class="form-group">
