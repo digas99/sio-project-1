@@ -7,6 +7,8 @@ COPY app /www/app
 
 COPY app_sec /www/app_sec
 
+COPY php /www/php
+	
 # create database
 WORKDIR /opt/lampp/var/mysql/
 
