@@ -26,6 +26,7 @@
 
         <!-- Sidebar -->
         <?php
+            session_start();
             require 'sidebar.php';
         ?>
 
@@ -72,7 +73,7 @@
                                                     OR body LIKE '%".$search."%'
                                                     OR author LIKE '%".$search."%'";
                                             $query = mysqli_query($conn, $sql);
-                                            if(mysqli_num_rows($query) == 0){
+                                            if(empty($query) || mysqli_num_rows($query) == 0){
                                                 echo "<p>Nenhum resultado encontrado para \"".$search."\".</p>";
                                             }else{
                                                 echo "<p>Foram encontrados ".mysqli_num_rows($query)." resultados para \"".$search."\".</p>";
