@@ -51,7 +51,7 @@
                     </div>
 
                     <!-- Content Row -->
-                    <div class="row justify-content-around my-5">
+                    <div class="row my-5">
 
                         <!-- Card Example -->
                         <div class="col-xl-3 col-md-6 mb-4">
@@ -61,7 +61,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 Notícias publicadas</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">??</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">5</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="far fa-newspaper fa-2x text-gray-300"></i>
@@ -79,7 +79,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Utilizadores registados</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">?</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">1</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-users fa-2x text-gray-300"></i>
@@ -100,7 +100,7 @@
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">?</div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-info-circle fa-2x text-gray-300"></i>
+                                            <i class="fas fa-question-circle fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -109,7 +109,7 @@
                     </div>
 
                     <!-- Content Row -->
-                    <div class="row justify-content-center">
+                    <div class="row">
 
                         <!-- Area Chart -->
                         <div class="col-xl-9 col-lg-7">
@@ -123,18 +123,10 @@
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
                                         </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
                                     </div>
                                 </div>
                                 <!-- Card Body -->
-                                <div class="card-body text-center">
+                                <div class="card-body">
                                     De momento, não há informações para apresentar aqui.
                                 </div>
                             </div>

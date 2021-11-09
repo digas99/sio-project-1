@@ -1,15 +1,18 @@
 <?php
-    session_start(); 
+    session_start();
+
+    // set timezone to Lisbon (Portugal)
+    date_default_timezone_set("Europe/Lisbon");
 
     // require database handler page
     require '../php/db-handler.php';
 
     // check if tables need to be created
-    if (!mysqli_query($conn, "DESCRIBE users") || !mysqli_query($conn, "DESCRIBE news"))
+    if (!mysqli_query($conn, "DESCRIBE users") || !mysqli_query($conn, "DESCRIBE users_sec") || !mysqli_query($conn, "DESCRIBE news"))
         require '../php/setup-tables.php';
 
     // destroy session if logout
-    if (isset($_GET['success']) && $_GET['success'] == "logout")
+    if (isset($_GET['submit']) && $_GET['submit'] == "logout")
         session_destroy();
     // if already in session then go to dashboard
     else if(isset($_SESSION["userId"])){
@@ -27,7 +30,7 @@
         $lockout_time = 600;    // 600 seconds = 10 minutes
 
         // check if username exists
-        $sql = "SELECT * FROM users WHERE username=?;";
+        $sql = "SELECT * FROM users_sec WHERE username=?;";
         $stmt = mysqli_stmt_init($conn);
         // check if the query makes sense
         if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -45,13 +48,13 @@
                 $timestamp_failed_login = $row['login_timestamp'];
                 $attempts = $row['login_count'];
 
-                if( ($attempts >= $attempts_limit) && (time() - $timestamp_failed_login < $lockout_time) ){
+                if( ($attempts >= $attempts_limit) && (time() - strtotime($timestamp_failed_login) < $lockout_time) ){
                     // User is lockout, too many attempts made
                     header("Location: login.php?submit=lockout");
                     exit();
                 } else {
                     // User is not lockout, login is allowed
-                    $pwd_check = password_verify($pwd, $row['pwd_sec']);
+                    $pwd_check = password_verify($pwd, $row['pwd']);
                     if ($pwd_check == true){
                         // Correct password
                         session_start();
@@ -60,37 +63,33 @@
                         $_SESSION['userUsername'] = $row['username'];
 
                         $attempts = 0;
-                        $sql = "UPDATE users SET login_count = ".$attempts." WHERE username='".$row['username']."';";
+                        $sql = "UPDATE users_sec SET login_count = ".$attempts." WHERE username='".$row['username']."';";
                         if(!mysqli_query($conn, $sql)){
                             header("Location: login.php?submit=error");
                             exit();
                         }
 
-                        header("Location: login.php?success=login");
+                        header("Location: login.php?submit=login");
                         exit();
                     }
                     else {
-                        // Wrong password
+                        // Password is incorrect
                         $attempts++;
 
-                        if($attempts >= $attempts_limit){
-                            $timestamp_failed_login = time();
-                        }
-
-                        $sql = "UPDATE users SET login_count = ".$attempts.", login_timestamp = ".$timestamp_failed_login." WHERE username='".$row['username']."';";
+                        $sql = "UPDATE users_sec SET login_count = ".$attempts.", login_timestamp = NOW() WHERE username='".$row['username']."';";
                         if(!mysqli_query($conn, $sql)){
                             header("Location: login.php?submit=error");
                             exit();
                         }
 
-                        header("Location: login.php?submit=accessinvalid");
+                        header("Location: login.php?submit=invalid");
                         exit();
                     }
                 }
             }
             else {
                 // Username not found
-                header("Location: login.php?submit=accessinvalid");
+                header("Location: login.php?submit=invalid");
                 exit();
             }
         }
@@ -136,45 +135,60 @@
                         <h1 class="h4 text-gray-900 mb-4">Bem-vindo de volta!</h1>
                     </div>
                     <?php
-                        // put error messages
-                        if (isset($_GET['error'])) {
-                            switch($_GET['error']) {
-                                case "accessinvalid":
-                                    echo '<p style="color: red; text-align: center;">Invalid username or password!</p>';
-                                    break;
-                                case "lockout":
-                                    echo '<p style="color: red; text-align: center;">Too many attempts!</p>';
-                                    break;
-                            }
-                        }
-
-                        // ##### TODO: Temporary
                         if (isset($_GET['submit'])) {
                             switch($_GET['submit']) {
-                                case "accessinvalid":
-                                    echo '<p style="color: red; text-align: center;">Invalid username or password!</p>';
+                                case "invalid":
+                                    echo "
+                                        <div class=\"alert alert-danger alert-dismissible fade show\">
+                                            <i class=\"fas fa-times-circle\"></i> <strong>ERRO:</strong> As credenciais introduzidas são inválidas! Por favor tente novamente.
+                                            <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+                                                <span aria-hidden=\"true\">×</span>
+                                            </button>
+                                        </div>
+                                    ";
                                     break;
                                 case "lockout":
-                                    echo '<p style="color: red; text-align: center;">Too many attempts!</p>';
+                                    echo "
+                                        <div class=\"alert alert-danger alert-dismissible fade show\">
+                                            <i class=\"fas fa-times-circle\"></i> <strong>ERRO:</strong> O limite de tentativas foi atingido! Por favor aguarde 10 minutos até tentar novamente.
+                                            <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+                                                <span aria-hidden=\"true\">×</span>
+                                            </button>
+                                        </div>
+                                    ";
                                     break;
                                 case "error":
-                                        echo '<p style="color: red; text-align: center;">Something went wrong!</p>';
-                                        break;
-                            }
-                        }
-
-                        // put success messages
-                        if (isset($_GET['success'])) {
-                            switch($_GET['success']) {
-                                case "login":
-                                    echo '<p style="color: green; text-align: center;">Logged in successfully!</p>';
+                                    echo "
+                                        <div class=\"alert alert-danger alert-dismissible fade show\">
+                                            <i class=\"fas fa-times-circle\"></i> <strong>ERRO:</strong> Ocorreu um problema ao tentar iniciar sessão!
+                                            <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+                                                <span aria-hidden=\"true\">×</span>
+                                            </button>
+                                        </div>
+                                    ";
                                     break;
                                 case "logout":
-                                    echo '<p style="color: green; text-align: center;">Logged out successfully!</p>';
-                                    break;   
+                                    echo "
+                                        <div class=\"alert alert-success alert-dismissible fade show\">
+                                            <i class=\"fas fa-check-circle\"></i> <strong>SUCESSO:</strong> Sessão terminada com sucesso!
+                                            <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+                                                <span aria-hidden=\"true\">×</span>
+                                            </button>
+                                        </div>
+                                    ";
+                                    break;
+                                case "login":
+                                    echo "
+                                        <div class=\"alert alert-success alert-dismissible fade show\">
+                                            <i class=\"fas fa-check-circle\"></i> <strong>SUCESSO:</strong> Sessão iniciada com sucesso!
+                                            <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+                                                <span aria-hidden=\"true\">×</span>
+                                            </button>
+                                        </div>
+                                    ";
+                                    break;
                             }
                         }
-
                     ?>
                     <form action="login" method="post" class="user">
                         <div class="form-group">
