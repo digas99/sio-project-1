@@ -174,9 +174,6 @@
                     </form>
                     <hr>
                     <div class="text-center">
-                        <a class="small" href="forgot-password.php">Recuperar palavra-passe</a>
-                    </div>
-                    <div class="text-center">
                         <a class="small" href="login.php">Iniciar sessão</a>
                     </div>
                 </div>

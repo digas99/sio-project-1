@@ -8,8 +8,9 @@
 
         $id = $_POST['delete-submit'];
         
-        $sql = "DELETE FROM news WHERE id=".$id;
-        $query = mysqli_query($conn, $sql);
+        // Delete news and reset auto increment to not leave blank IDs unused
+        $sql = "DELETE FROM news WHERE id=".$id."; ALTER TABLE news AUTO_INCREMENT = 1";
+        $query = mysqli_multi_query($conn, $sql);
         if(!$query){
             header("Location: news.php?submit=error");
             exit();
