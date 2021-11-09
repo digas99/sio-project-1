@@ -42,15 +42,12 @@
             // fetch rows
             if ($row = mysqli_fetch_assoc($result)) {
 
-                        // ##### TODO: Hardcoded for now, need to retrieve from DB #####
-                //$timestamp_failed_login = $row['login_timestamp'];
-                //$attempts = $row['login_count'];
-                $timestamp_failed_login = 0;
-                $attempts = 0;
+                $timestamp_failed_login = $row['login_timestamp'];
+                $attempts = $row['login_count'];
 
                 if( ($attempts >= $attempts_limit) && (time() - $timestamp_failed_login < $lockout_time) ){
                     // User is lockout, too many attempts made
-                    header("Location: login.php?error=lockout");
+                    header("Location: login.php?submit=lockout");
                     exit();
                 } else {
                     // User is not lockout, login is allowed
@@ -61,28 +58,45 @@
             
                         $_SESSION['userId'] = $row['id'];
                         $_SESSION['userUsername'] = $row['username'];
-            
-                        $attempts = 0;                      // ##### TODO: Commit to DB #####
+
+                        $attempts = 0;
+                        $sql = "UPDATE users SET login_count = ".$attempts." WHERE username='".$row['username']."';";
+                        if(!mysqli_query($conn, $sql)){
+                            header("Location: login.php?submit=error");
+                            exit();
+                        }else{
+                            header("Location: login.php?submit=error");
+                            exit();
+                        }
 
                         header("Location: login.php?success=login");
                         exit();
                     }
                     else {
                         // Wrong password
-                        $attempts++;                            // ##### TODO: Commit to DB #####
+                        $attempts++;
 
                         if($attempts >= $attempts_limit){
-                            $timestamp_failed_login = time();   // ##### TODO: Commit to DB #####
+                            $timestamp_failed_login = time();
                         }
 
-                        header("Location: login.php?error=accessinvalid");
+                        $sql = "UPDATE users SET login_count = ".$attempts.", login_timestamp = ".$timestamp_failed_login." WHERE username='".$row['username']."';";
+                        if(!mysqli_query($conn, $sql)){
+                            header("Location: login.php?submit=error");
+                            exit();
+                        }else{
+                            header("Location: login.php?submit=error");
+                            exit();
+                        }
+
+                        header("Location: login.php?submit=accessinvalid");
                         exit();
                     }
                 }
             }
             else {
                 // Username not found
-                header("Location: login.php?error=accessinvalid");
+                header("Location: login.php?submit=accessinvalid");
                 exit();
             }
         }
@@ -137,6 +151,21 @@
                                 case "lockout":
                                     echo '<p style="color: red; text-align: center;">Too many attempts!</p>';
                                     break;
+                            }
+                        }
+
+                        // ##### TODO: Temporary
+                        if (isset($_GET['submit'])) {
+                            switch($_GET['submit']) {
+                                case "accessinvalid":
+                                    echo '<p style="color: red; text-align: center;">Invalid username or password!</p>';
+                                    break;
+                                case "lockout":
+                                    echo '<p style="color: red; text-align: center;">Too many attempts!</p>';
+                                    break;
+                                case "error":
+                                        echo '<p style="color: red; text-align: center;">Something went wrong!</p>';
+                                        break;
                             }
                         }
 
