@@ -196,9 +196,9 @@
                         </div>
                         <div class="form-group" style="position:relative;">
                             <input type="password" class="form-control form-control-user" name="password" placeholder="Palavra-passe" required>
-                            <i class="fas fa-eye" id="show-pwd"></i>
+                            <i class="fas fa-eye show-pwd"></i>
                             <style>
-                                #show-pwd {
+                                .show-pwd {
                                     position: absolute;
                                     right: 18px;
                                     top: 0;
@@ -211,21 +211,23 @@
                             </style>
 
                             <script>
-                                const eye = document.getElementById("show-pwd");
-                                eye.addEventListener("click", () => {
-                                    const input = eye.parentElement.children[0];
-                                    // if eye with no slash then show pwd after click
-                                    if (eye.classList.contains("fa-eye")) {
-                                        input.type = 'text';
-                                        eye.classList.remove("fa-eye");
-                                        eye.classList.add("fa-eye-slash");
-                                    }
-                                    else {
-                                        input.type = 'password';
-                                        eye.classList.remove("fa-eye-slash");
-                                        eye.classList.add("fa-eye");
-                                    }
-                                });
+                                // add event listener to all show pwd
+                                Array.from(document.getElementsByClassName("show-pwd"))
+                                    .forEach(eye => {
+                                        const input = Array.from(eye.parentElement.children).filter(child => child.tagName=='INPUT')[0];
+                                        eye.addEventListener("click", () => {
+                                            if (eye.classList.contains("fa-eye")) {
+                                                input.type = 'text';
+                                                eye.classList.remove("fa-eye");
+                                                eye.classList.add("fa-eye-slash");
+                                            }
+                                            else {
+                                                input.type = 'password';
+                                                eye.classList.remove("fa-eye-slash");
+                                                eye.classList.add("fa-eye");
+                                            }
+                                        });
+                                    });
                             </script>
                         </div>
                         <button type="submit" name="login-submit" class="btn btn-primary btn-user btn-block">

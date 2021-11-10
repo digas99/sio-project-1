@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "Running app..."
+
 # setup permissions for webapp files
 sudo chmod -R a+rwx ${PWD}/app
 sudo chmod -R a+rwx ${PWD}/app_sec
