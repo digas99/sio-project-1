@@ -1,5 +1,16 @@
-# Security of Information and Organizations 2021/2022
-## Project \#1
+# Project \#1 - Vulnerabilities
+
+## Security of Information and Organizations 2021/2022
+
+Departamento de Electrónica, Telecomunicações e Informática - Universidade de Aveiro
+
+**Professor:** João Paulo Barraca
+
+## Table of contents:
+1. [About](#about)
+2. [Setup](#setup)
+3. [Authors](#authors)
+3. [Vulnerabilities](#vulnerabilities)
 
 ### About
 
