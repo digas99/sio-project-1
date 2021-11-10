@@ -34,7 +34,7 @@
         $stmt = mysqli_stmt_init($conn);
         // check if the query makes sense
         if (!mysqli_stmt_prepare($stmt, $sql)) {
-            echo "ERROR: Could not execute $sql.<br> " . mysqli_error($conn);
+            header("Location: login.php?submit=error");
             exit();
         }
         else {
