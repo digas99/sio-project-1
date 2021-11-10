@@ -2,8 +2,8 @@ AddDefaultCharset utf-8
 
 DirectoryIndex index.php
 
-ErrorDocument 404 /project-1---vulnerabilities-equipa_8/app_sec/404.php
-ErrorDocument 403 /project-1---vulnerabilities-equipa_8/app_sec/403.php
+ErrorDocument 404 /www/app_sec/404.php
+ErrorDocument 403 /www/app_sec/403.php
 
 RewriteEngine On
 
