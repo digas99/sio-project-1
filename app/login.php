@@ -171,12 +171,6 @@
                         <div class="form-group" style="position:relative;">
                             <input type="text" class="form-control form-control-user" name="password" placeholder="Palavra-passe" required>
                         </div>
-                        <div class="form-group">
-                            <div class="custom-control custom-checkbox small">
-                                <input type="checkbox" class="custom-control-input" id="customCheck">
-                                <label class="custom-control-label" for="customCheck">Manter sessão iniciada</label>
-                            </div>
-                        </div>
                         <button type="submit" name="login-submit" class="btn btn-primary btn-user btn-block">
                             Iniciar sessão
                         </button>

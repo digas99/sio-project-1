@@ -58,7 +58,7 @@
                         // check if any rows where fetched
                         if (mysqli_num_rows($result) == 0) {
                             // if not taken, then add it to database
-                            $sql = "INSERT INTO users (username, email, pwd) VALUES (?, ?, ?);";
+                            $sql = "INSERT INTO users_sec (username, email, pwd, login_count) VALUES (?, ?, ?, 0);";
                             $stmt = mysqli_stmt_init($conn);
                             // check if the query makes sense
                             if (!mysqli_stmt_prepare($stmt, $sql)) {

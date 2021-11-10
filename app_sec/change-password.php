@@ -1,49 +1,35 @@
 <?php
     require '../php/check-session.php';
 
-    // Check if there was a news publish
-	if (isset($_POST['publish-submit'])) {
-        // Require database handler page
-        require '../php/db-handler.php';
+    // check if there was a change password submition
+	if (isset($_POST['change-submit'])) {
+		// require database handler page
+		require '../php/db-handler.php';
 
-        // Fetch information from the publish form
-		$title = htmlspecialchars($_POST['title'], ENT_QUOTES);
-		$body = htmlspecialchars($_POST['body'], ENT_QUOTES);
-		$author = htmlspecialchars($_POST['author'], ENT_QUOTES);
-
-        $fileName = $_FILES['image']['name'];
-        $fileTmpName = $_FILES['image']['tmp_name'];
-
-        $fileExt = explode('.', $fileName);
-        $fileActualExt = strtolower(end($fileExt));
-
-        // Check if the extension of the file is allowed
-		if(($fileActualExt != "jpg") && ($fileActualExt != "jpeg") && ($fileActualExt != "png")){
-            header("Location: publish.php?submit=invalid");
-            exit();
-        }
-
-        $fileNameNew = uniqid('image-', true).".".$fileActualExt;
+		// fetch information from the signup form
+		$pwd = $_POST['new-password'];
+		$pwdRepeat = $_POST['repeat-new-password'];
         
-        $fileDest = 'img/'.$fileNameNew;
+		// missmatch passwords handler
+		if ($pwd !== $pwdRepeat) {
+			header("Location: change-password.php?submit=invalid");
+			exit();
+		} else {
+            $sql = "UPDATE users_sec SET pwd=? WHERE username='".$_SESSION["userUsername"]."'";
+            $stmt = mysqli_stmt_init($conn);
 
-        // Upload image to the new location
-        if(!move_uploaded_file($fileTmpName, $fileDest)){
-            header("Location: publish.php?submit=upload");
-            exit();
+            if (mysqli_stmt_prepare($stmt, $sql)) {
+                mysqli_stmt_bind_param($stmt, 's', password_hash($pwd, PASSWORD_DEFAULT));
+                if (!mysqli_stmt_execute($stmt)) {
+                    header("Location: change-password.php?submit=error");
+                    exit();
+                }
+                else {
+                    header("Location: change-password.php?submit=success");
+                }
+            }
         }
-
-        $img = $fileDest;
-
-        $sql = "INSERT INTO news (title, img, body, author) VALUES ('".$title."', '".$img."', '".$body."', '".$author."');";
-        if(!mysqli_query($conn, $sql)){
-            header("Location: publish.php?submit=error");
-            exit();
-        }else{
-            header("Location: publish.php?submit=success");
-            exit();
-        }
-    }
+	}
 ?>
 
 <!DOCTYPE html>
@@ -53,8 +39,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-    <title>Publicar notícias | Área de Administração</title>
+    <title>Alterar palavra-passe | Área de Administração</title>
 
     <!-- Custom fonts for this template-->
     <link href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" rel="stylesheet" type="text/css">
@@ -91,7 +79,7 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Publicar Notícias</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Alterar palavra-passe</h1>
                     </div>
 
                     <!-- Content Row -->
@@ -107,7 +95,7 @@
                                         case 'success':
                                             echo "
                                                 <div class=\"alert alert-success alert-dismissible fade show\">
-                                                    <i class=\"fas fa-check-circle\"></i> <strong>SUCESSO:</strong> A notícia foi publicada com sucesso!
+                                                    <i class=\"fas fa-check-circle\"></i> <strong>SUCESSO:</strong> A palavra-passe foi alterada com sucesso!
                                                     <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
                                                         <span aria-hidden=\"true\">×</span>
                                                     </button>
@@ -118,18 +106,7 @@
                                         case 'error':
                                             echo "
                                                 <div class=\"alert alert-danger alert-dismissible fade show\">
-                                                    <i class=\"fas fa-times-circle\"></i> <strong>ERRO:</strong> Ocorreu um problema ao tentar publicar a notícia!
-                                                    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
-                                                        <span aria-hidden=\"true\">×</span>
-                                                    </button>
-                                                </div>
-                                            ";
-                                            break;
-
-                                        case 'upload':
-                                            echo "
-                                                <div class=\"alert alert-danger alert-dismissible fade show\">
-                                                    <i class=\"fas fa-times-circle\"></i> <strong>ERRO:</strong> Não foi possível executar o upload da imagem de capa da notícia!
+                                                    <i class=\"fas fa-times-circle\"></i> <strong>ERRO:</strong> Ocorreu um problema ao tentar alterar a palavra-passe!
                                                     <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
                                                         <span aria-hidden=\"true\">×</span>
                                                     </button>
@@ -140,7 +117,7 @@
                                         case 'invalid':
                                             echo "
                                                 <div class=\"alert alert-danger alert-dismissible fade show\">
-                                                    <i class=\"fas fa-times-circle\"></i> <strong>ERRO:</strong> O ficheiro enviado tem uma extensão que não é válida! Apenas é permitido enviar imagens, com extensão .jpg ou .png.
+                                                    <i class=\"fas fa-times-circle\"></i> <strong>ERRO:</strong> As palavras-passe não são iguais!
                                                     <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
                                                         <span aria-hidden=\"true\">×</span>
                                                     </button>
@@ -153,31 +130,21 @@
 
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Nova notícia</h6>
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Alteração da palavra-passe</h6>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
-                                    <form method="post" enctype="multipart/form-data">
+                                    <form method="post">
                                         <div class="form-group">
-                                            <label for="title">Título:</label>
-                                            <input type="text" name="title" class="form-control" placeholder="Escrever o título da notícia" required>
+                                            <label for="new-password">Nova palavra-passe:</label>
+                                            <input type="text" name="new-password" class="form-control" placeholder="Escrever a nova palavra-passe" required>
                                         </div>
                                         <div class="form-group">
-                                            <label for="body">Corpo:</label>
-                                            <textarea name="body" rows="5" cols="40" class="form-control" placeholder="Escrever o corpo da notícia" required></textarea>
+                                            <label for="repeat-new-password">Confirmar nova palavra-passe:</label>
+                                            <input type="text" name="repeat-new-password" class="form-control" placeholder="Repetir a nova palavra-passe" required>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="author">Autor:</label>
-                                            <input type="text" name="author" class="form-control" placeholder="Escrever o autor da notícia" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="image">Imagem de capa:</label>
-                                            <input type="file" accept=".jpg,.jpeg,.png" name="image" class="form-control" required>
-                                            <small class="form-text text-muted">Apenas é permitido enviar um único ficheiro com extensão <code>.jpg</code> ou <code>.png</code>.</small>
-                                        </div>
-                                        <button type="submit" name="publish-submit" value="post" class="btn btn-primary">Publicar</button>
+                                        <button type="submit" name="change-submit" value="post" class="btn btn-primary">Alterar</button>
                                     </form>
                                 </div>
                             </div>
