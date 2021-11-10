@@ -9,8 +9,8 @@ Departamento de Electrónica, Telecomunicações e Informática - Universidade d
 ## Table of contents:
 1. [About](#about)
 2. [Setup](#setup)
-3. [Authors](#authors)
 3. [Vulnerabilities](#vulnerabilities)
+4. [Authors](#authors)
 
 ### About
 
@@ -35,16 +35,6 @@ $ sudo docker run -dti --name app -p 80:80 webapp
 ```
 The web server will, then, be running on localhost:80.
 
-### Authors
-
-88755 - Carlos Rafael de Jesus Palma Costa - carlospalmacosta@ua.pt
-
-88930 - João Tomás Borges Simões - jtsimoes@ua.pt
-
-88964 - Afonso Domingos Cardoso - afonsocardoso@ua.pt
-
-90327 - Diogo Costa Correia - diogo.correia99@ua.pt
-
 ### Vulnerabilities
 
 - [x] [CWE-79](https://cwe.mitre.org/data/definitions/79.html) - Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')
@@ -58,3 +48,13 @@ The web server will, then, be running on localhost:80.
 - [x] [CWE-549](https://cwe.mitre.org/data/definitions/549.html) - Missing Password Field Masking
 - [x] [CWE-552](https://cwe.mitre.org/data/definitions/552.html) - Files or Directories Accessible to External Parties
 - [x] [CWE-799](https://cwe.mitre.org/data/definitions/799.html) - Improper Control of Interaction Frequency
+
+### Authors
+
+88755 - Carlos Rafael de Jesus Palma Costa - carlospalmacosta@ua.pt
+
+88930 - João Tomás Borges Simões - jtsimoes@ua.pt
+
+88964 - Afonso Domingos Cardoso - afonsocardoso@ua.pt
+
+90327 - Diogo Costa Correia - diogo.correia99@ua.pt
