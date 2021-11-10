@@ -7,25 +7,44 @@
 		require '../php/db-handler.php';
 
 		// fetch information from the signup form
+        $oldPwd = $_POST['old-password'];
 		$pwd = $_POST['new-password'];
 		$pwdRepeat = $_POST['repeat-new-password'];
         
-		// missmatch passwords handler
-		if ($pwd !== $pwdRepeat) {
-			header("Location: change-password.php?submit=invalid");
-			exit();
-		} else {
-            $sql = "UPDATE users_sec SET pwd=? WHERE username='".$_SESSION["userUsername"]."'";
-            $stmt = mysqli_stmt_init($conn);
-
-            if (mysqli_stmt_prepare($stmt, $sql)) {
-                mysqli_stmt_bind_param($stmt, 's', password_hash($pwd, PASSWORD_DEFAULT));
-                if (!mysqli_stmt_execute($stmt)) {
-                    header("Location: change-password.php?submit=error");
+        // check for old password
+        $sql = "SELECT * FROM users_sec WHERE username=?;";
+        $stmt = mysqli_stmt_init($conn);
+        if (!mysqli_stmt_prepare($stmt, $sql)) {
+            header("Location: change-password.php?submit=error");
+            exit();
+        }
+        else {
+            mysqli_stmt_bind_param($stmt, 's', $_SESSION['userUsername']);
+            mysqli_stmt_execute($stmt);
+            $row = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt));
+            if (!password_verify($oldPwd, $row['pwd'])) {
+                header("Location: change-password.php?submit=oldpwderror");
+                exit();
+            }
+            else {
+                // missmatch passwords handler
+                if ($pwd !== $pwdRepeat) {
+                    header("Location: change-password.php?submit=invalid");
                     exit();
-                }
-                else {
-                    header("Location: change-password.php?submit=success");
+                } else {
+                    $sql = "UPDATE users_sec SET pwd=? WHERE username='".$_SESSION["userUsername"]."'";
+                    $stmt = mysqli_stmt_init($conn);
+
+                    if (mysqli_stmt_prepare($stmt, $sql)) {
+                        mysqli_stmt_bind_param($stmt, 's', password_hash($pwd, PASSWORD_DEFAULT));
+                        if (!mysqli_stmt_execute($stmt)) {
+                            header("Location: change-password.php?submit=error");
+                            exit();
+                        }
+                        else {
+                            header("Location: change-password.php?submit=success");
+                        }
+                    }
                 }
             }
         }
@@ -124,6 +143,17 @@
                                                 </div>
                                             ";
                                             break;
+                                    
+                                        case 'oldpwderror':
+                                            echo "
+                                                <div class=\"alert alert-danger alert-dismissible fade show\">
+                                                    <i class=\"fas fa-times-circle\"></i> <strong>ERRO:</strong> A palavra-passe antiga não está correta!
+                                                    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+                                                        <span aria-hidden=\"true\">×</span>
+                                                    </button>
+                                                </div>
+                                            ";
+                                            break;
                                     }
                                 }
                             ?>
@@ -136,18 +166,57 @@
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <form method="post">
-                                        <div class="form-group">
-                                            <label for="new-password">Nova palavra-passe:</label>
-                                            <input type="text" name="new-password" class="form-control" placeholder="Escrever a nova palavra-passe" required>
+                                        <div class="form-group" style="position:relative;">
+                                            <label for="old-password">Palavra-passe antiga:</label>
+                                            <input type="password" name="old-password" class="form-control" placeholder="Escrever a palavra-passe antiga" required>
+                                            <i class="fas fa-eye show-pwd"></i>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group" style="position:relative;">
+                                            <label for="new-password">Nova palavra-passe:</label>
+                                            <input type="password" name="new-password" class="form-control" placeholder="Escrever a nova palavra-passe" required>
+                                            <i class="fas fa-eye show-pwd"></i>
+                                        </div>
+                                        <div class="form-group" style="position:relative;">
                                             <label for="repeat-new-password">Confirmar nova palavra-passe:</label>
-                                            <input type="text" name="repeat-new-password" class="form-control" placeholder="Repetir a nova palavra-passe" required>
+                                            <input type="password" name="repeat-new-password" class="form-control" placeholder="Repetir a nova palavra-passe" required>
+                                            <i class="fas fa-eye show-pwd"></i>
                                         </div>
                                         <button type="submit" name="change-submit" value="post" class="btn btn-primary">Alterar</button>
                                     </form>
                                 </div>
                             </div>
+
+                            <style>
+                                .show-pwd {
+                                    position: absolute;
+                                    right: 18px;
+                                    top: 32px;
+                                    bottom: 0;
+                                    margin: auto;
+                                    height: fit-content;
+                                    font-size: 20px;
+                                    cursor: pointer;
+                                }
+                            </style>
+                            <script>
+                                // add event listener to all show pwd
+                                Array.from(document.getElementsByClassName("show-pwd"))
+                                    .forEach(eye => {
+                                        const input = Array.from(eye.parentElement.children).filter(child => child.tagName=='INPUT')[0];
+                                        eye.addEventListener("click", () => {
+                                            if (eye.classList.contains("fa-eye")) {
+                                                input.type = 'text';
+                                                eye.classList.remove("fa-eye");
+                                                eye.classList.add("fa-eye-slash");
+                                            }
+                                            else {
+                                                input.type = 'password';
+                                                eye.classList.remove("fa-eye-slash");
+                                                eye.classList.add("fa-eye");
+                                            }
+                                        });
+                                    });
+                            </script>
                         </div>
                     </div>
                 </div>
