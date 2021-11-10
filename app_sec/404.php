@@ -96,7 +96,7 @@
                                     <p class="text-gray-500 mb-0"><span class="text-gray-600">Utilizador:</span> Não existe página?</p>
                                     <p class="text-gray-500 mb-5"><span class="text-gray-600">Servidor: &nbsp;</span> Então aí verás que não é o website que se dobra. És apenas tu.</p>
                                 </div>
-                                <a href="index">&larr; Voltar à página inicial</a>
+                                <a href="/www/app_sec/index">&larr; Voltar à página inicial</a>
                             </div>
 
                         </div>

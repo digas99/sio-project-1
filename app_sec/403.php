@@ -91,7 +91,7 @@
                                 <p class="lead text-gray-800 mb-5">Acesso Negado</p>
                                 <p class="text-gray-600 mb-0">Não deverias estar aqui...</p>
                                 <p class="text-gray-500 mb-5">Estás a visualizar esta página porque não tens permissão para aceder a esta parte da área de administração.</p>
-                                <a href="index">&larr; Pedir desculpa e voltar à página inicial</a>
+                                <a href="/www/app_sec/index">&larr; Pedir desculpa e voltar à página inicial</a>
                             </div>
 
                         </div>
