@@ -45,13 +45,12 @@ $sql = "INSERT INTO users_sec (username, email, pwd, login_count) VALUES ('".$us
 mysqli_query($conn, $sql);
 
 // Fill table news with dummy content
-require 'images-unsplash.php';
-
-for ($i = 0; $i < 5; $i++) {
+$number_news = 5;
+for ($i = 0; $i < $number_news; $i++) {
 	require 'fakename-generator.php';
 
 	$title = file_get_contents('https://loripsum.net/api/1/short/headers', FALSE, NULL, 4, mt_rand(15, 30));
-	$img = $images_unsplash[mt_rand(0, sizeof($images_unsplash) - 1)];
+	$img = 'https://picsum.photos/500/300?random='.$i;
 	$body = file_get_contents('https://loripsum.net/api/1/short/headers', FALSE, NULL, 4, mt_rand(100, 250));
 	$author = $random_fullname;
 	$sql = "INSERT INTO news (title, img, body, author) VALUES ('".$title."', '".$img."', '".$body."', '".$author."');";
