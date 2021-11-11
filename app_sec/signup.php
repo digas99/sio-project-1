@@ -25,7 +25,10 @@
 		if ($pwd !== $pwdRepeat) {
 			header("Location: signup.php?submit=missmatchpwd&username=".$username."&email=".$email);
 			exit();
-		}
+		}else if(strlen($pwd) < 8 || !preg_match('/[A-Z]/', $pwd) || !preg_match('/[\'^£$%&*()}!{@#~?><>,|=_+¬-]/', $pwd)){
+			header("Location: signup.php?submit=pwdnotvalid&username=".$username."&email=".$email);
+		    exit();
+        }
         else {
             // check if username exists
             $sql = "SELECT * FROM users WHERE username=?;";
@@ -166,6 +169,16 @@
                                     echo "
                                         <div class=\"alert alert-danger alert-dismissible fade show\">
                                             <i class=\"fas fa-times-circle\"></i> <strong>ERRO:</strong> As palavras-passe introduzidas não são iguais!
+                                            <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+                                                <span aria-hidden=\"true\">×</span>
+                                            </button>
+                                        </div>
+                                    ";
+                                    break;
+                                case "pwdnotvalid":
+                                    echo "
+                                        <div class=\"alert alert-danger alert-dismissible fade show\">
+                                            <i class=\"fas fa-times-circle\"></i> <strong>ERRO:</strong> A palavras-passe introduzida não corresponde aos requisitos mínimos! (pelo menos 8 caracteres, uma letra maiuscula e um símbolo)
                                             <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
                                                 <span aria-hidden=\"true\">×</span>
                                             </button>

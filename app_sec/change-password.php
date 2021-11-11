@@ -31,6 +31,10 @@
                 if ($pwd !== $pwdRepeat) {
                     header("Location: change-password.php?submit=invalid");
                     exit();
+
+                }else if(strlen($pwd) < 6 || !preg_match('/[A-Z]/', $pwd) || !preg_match('/[\'^£!$%&*()}{@#~?><>,|=_+¬-]/', $pwd)){
+                    header("Location: change-password.php?submit=pwdnotvalid");
+                    exit();
                 } else {
                     $sql = "UPDATE users_sec SET pwd=? WHERE username='".$_SESSION["userUsername"]."'";
                     $stmt = mysqli_stmt_init($conn);
@@ -148,6 +152,16 @@
                                             echo "
                                                 <div class=\"alert alert-danger alert-dismissible fade show\">
                                                     <i class=\"fas fa-times-circle\"></i> <strong>ERRO:</strong> A palavra-passe antiga não está correta!
+                                                    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+                                                        <span aria-hidden=\"true\">×</span>
+                                                    </button>
+                                                </div>
+                                            ";
+                                            break;
+                                        case "pwdnotvalid":
+                                            echo "
+                                                <div class=\"alert alert-danger alert-dismissible fade show\">
+                                                    <i class=\"fas fa-times-circle\"></i> <strong>ERRO:</strong> A palavras-passe introduzida não corresponde aos requisitos mínimos! (pelo menos 8 caracteres, uma letra maiuscula e um símbolo)
                                                     <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
                                                         <span aria-hidden=\"true\">×</span>
                                                     </button>
