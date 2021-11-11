@@ -112,23 +112,6 @@
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">Lista de notícias</h6>
                                 </div>
-                                <div style="position:absolute;
-                                    right:22px;
-                                    top: 12px;">
-                                    <select>
-                                        <script>
-                                            const sortingMethods = ["ascending", "descending"];
-        
-                                            // get value from url
-                                            const defaultMethod = decodeURIComponent(document.location.href.substring(document.location.href.indexOf("sort=")+5));
-                                            document.write("<OPTION value=1>"+defaultMethod+"</OPTION>");
-                                            
-                                            // put all other options
-                                            sortingMethods.filter(method => method !== defaultMethod)
-                                                .forEach((method, i) => document.write("<OPTION value="+i+">"+method+"</OPTION>"));
-                                        </script>
-                                    </select>
-                                </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <form method="post" onsubmit="return confirm('Tem a certeza que pretende eliminar permanentemente esta notícia?\nTenha em atenção que esta ação é irreversível.');">
