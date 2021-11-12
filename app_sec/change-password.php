@@ -32,7 +32,7 @@
                     header("Location: change-password.php?submit=invalid");
                     exit();
 
-                }else if(strlen($pwd) < 6 || !preg_match('/[A-Z]/', $pwd) || !preg_match('/[\'^£!$%&*()}{@#~?><>,|=_+¬-]/', $pwd)){
+                }else if(strlen($pwd) < 8 || !preg_match('/[A-Z]/', $pwd) || !preg_match('/[\'^£$%&*()}!{@#~?><>,|=_+¬-]/', $pwd)){
                     header("Location: change-password.php?submit=pwdnotvalid");
                     exit();
                 } else {
