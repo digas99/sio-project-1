@@ -32,6 +32,9 @@
                     header("Location: change-password.php?submit=invalid");
                     exit();
 
+                }else if($pwd === $oldPwd){
+                    header("Location: change-password.php?submit=sameoldpwd");
+                    exit();
                 }else if(strlen($pwd) < 8 || !preg_match('/[A-Z]/', $pwd) || !preg_match('/[\'^£$%&*()}!{@#~?><>,|=_+¬-]/', $pwd)){
                     header("Location: change-password.php?submit=pwdnotvalid");
                     exit();
@@ -162,6 +165,16 @@
                                             echo "
                                                 <div class=\"alert alert-danger alert-dismissible fade show\">
                                                     <i class=\"fas fa-times-circle\"></i> <strong>ERRO:</strong> A palavra-passe introduzida não cumpre os requisitos mínimos (pelo menos 8 caracteres, uma letra maiúscula e um símbolo)!
+                                                    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+                                                        <span aria-hidden=\"true\">×</span>
+                                                    </button>
+                                                </div>
+                                            ";
+                                            break;
+                                        case "sameoldpwd":
+                                            echo "
+                                                <div class=\"alert alert-danger alert-dismissible fade show\">
+                                                    <i class=\"fas fa-times-circle\"></i> <strong>ERRO:</strong> A nova palavra-passe é a mesma que a palavra-passe antiga!
                                                     <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
                                                         <span aria-hidden=\"true\">×</span>
                                                     </button>
