@@ -52,10 +52,9 @@ The web server will, then, be running on localhost:80.
 
 ### Authors
 
-88755 - Carlos Rafael de Jesus Palma Costa - carlospalmacosta@ua.pt
-
-88930 - João Tomás Borges Simões - jtsimoes@ua.pt
-
-88964 - Afonso Domingos Cardoso - afonsocardoso@ua.pt
-
-90327 - Diogo Costa Correia - diogo.correia99@ua.pt
+|NMEC  | Name | Email|
+|------|------|------|
+|88755 | Carlos Rafael de Jesus Palma Costa | carlospalmacosta@ua.pt|
+|88930 | João Tomás Borges Simões | jtsimoes@ua.pt|
+|88964 | Afonso Domingos Cardoso | afonsocardoso@ua.pt|
+|90327 | Diogo Costa Correia | diogo.correia99@ua.pt|
