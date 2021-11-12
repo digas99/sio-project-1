@@ -166,10 +166,10 @@
                     ?>
                     <form action="login.php" method="post" class="user">
                         <div class="form-group">
-                            <input type="text" class="form-control form-control-user" name="username" placeholder="Nome de utilizador" required>
+                            <input class="form-control form-control-user" name="username" placeholder="Nome de utilizador" required>
                         </div>
                         <div class="form-group" style="position:relative;">
-                            <input type="text" class="form-control form-control-user" name="password" placeholder="Palavra-passe" required>
+                            <input class="form-control form-control-user" name="password" placeholder="Palavra-passe" required>
                         </div>
                         <button type="submit" name="login-submit" class="btn btn-primary btn-user btn-block">
                             Iniciar sessão

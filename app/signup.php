@@ -153,20 +153,20 @@
                     ?>
                     <form action="signup.php" method="post" class="user">
                         <div class="form-group">
-                            <input type="text" class="form-control form-control-user"
+                            <input class="form-control form-control-user"
                                 name="username" placeholder="Nome de utilizador" required>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control form-control-user"
+                            <input class="form-control form-control-user"
                                 name="email" placeholder="Email" required>
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                <input type="text" class="form-control form-control-user"
+                                <input class="form-control form-control-user"
                                     name="password" placeholder="Palavra-passe" required>
                             </div>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control form-control-user"
+                                <input class="form-control form-control-user"
                                     name="repeat-password" placeholder="Repetir palavra-passe" required>
                             </div>
                         </div>

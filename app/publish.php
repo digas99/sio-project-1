@@ -147,7 +147,7 @@
                                     <form method="post" enctype="multipart/form-data">
                                         <div class="form-group">
                                             <label for="title">Título:</label>
-                                            <input type="text" name="title" class="form-control" placeholder="Escrever o título da notícia" required>
+                                            <input name="title" class="form-control" placeholder="Escrever o título da notícia" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="body">Corpo:</label>
@@ -155,7 +155,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="author">Autor:</label>
-                                            <input type="text" name="author" class="form-control" placeholder="Escrever o autor da notícia" required>
+                                            <input name="author" class="form-control" placeholder="Escrever o autor da notícia" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="image">Imagem de capa:</label>
