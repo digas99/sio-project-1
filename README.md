@@ -4,8 +4,6 @@
 
 Departamento de Electrónica, Telecomunicações e Informática - Universidade de Aveiro
 
-**Teacher:** João Paulo Barraca
-
 ## Table of contents:
 1. [About](#about)
 2. [Setup](#setup)
