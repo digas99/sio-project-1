@@ -178,7 +178,7 @@
                                 case "pwdnotvalid":
                                     echo "
                                         <div class=\"alert alert-danger alert-dismissible fade show\">
-                                            <i class=\"fas fa-times-circle\"></i> <strong>ERRO:</strong> A palavras-passe introduzida não corresponde aos requisitos mínimos! (pelo menos 8 caracteres, uma letra maiuscula e um símbolo)
+                                            <i class=\"fas fa-times-circle\"></i> <strong>ERRO:</strong> A palavra-passe introduzida não cumpre os requisitos mínimos (pelo menos 8 caracteres, uma letra maiúscula e um símbolo)!
                                             <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
                                                 <span aria-hidden=\"true\">×</span>
                                             </button>
